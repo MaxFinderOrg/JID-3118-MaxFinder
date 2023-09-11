@@ -8,7 +8,7 @@ This web application is to connect pet owners who have lost their pets with peop
 
 #### New Features
 * GitHub setup
-* Node JS library inclusion
+* Material UI library inclusion
 
 #### Bug Fixes
 * Fixed mobile app bugs by transforming our codebase 
