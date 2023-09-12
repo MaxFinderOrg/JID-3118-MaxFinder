@@ -5,6 +5,8 @@ import Posts from "./pages/Posts";
 import ContactUs from "./pages/Contact";
 import Resources from "./pages/Resources";
 import NotFound from "./pages/NotFound";
+import UserFields from "./pages/UserFields";
+import Profile from "./pages/Profile";
 
 const Router = () => {
   return (
@@ -13,6 +15,8 @@ const Router = () => {
       <Route path="/posts" element={<Posts />} />
       <Route path="/contactus" element={<ContactUs />} />
       <Route path="/resources" element={<Resources />} />
+      <Route path="/userfields" element={<UserFields />} />
+      <Route path="/profile" element={<Profile />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
     );
