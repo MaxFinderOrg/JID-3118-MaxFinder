@@ -69,7 +69,7 @@ function NavBar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            MAXFINDER
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
@@ -79,8 +79,7 @@ function NavBar() {
           </Box>
 
           <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-        <Typography sx={{ minWidth: 100 }}>Contact</Typography>
-        <Typography sx={{ minWidth: 100 }}>Profile</Typography>
+       
         <Tooltip title="Account settings">
           <IconButton
             onClick={handleClick}
