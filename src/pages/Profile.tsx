@@ -1,3 +1,6 @@
+/* 
+
+
 //import React from "react";
 import React, { Component } from 'react';
 import logo from './logo.svg';
@@ -16,17 +19,17 @@ function formatName(user: string) {
     return user;
 }
 
+
 const postList = ['dog1', 'dog2', 'dog3', 'dog4', 'dog5'];  
 
 function Profile() {
     return (
         <div>
 
-           
             <h1>
                 Hello, {formatName(user)}!
             </h1>
-            <h2>It is {new Date().toLocaleTimeString()}.</h2>
+            
 
             
             
@@ -43,8 +46,6 @@ function Profile() {
            
 
 
-            
-
         </div>
     );
   }
@@ -52,8 +53,61 @@ function Profile() {
 
 
 
-
-
-
-
 export default Profile;
+
+
+*/
+
+
+
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Grid';
+import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import Link from '@mui/material/Link';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import ProfileList from '../components/ProfileList';
+import PostCard from '../components/PostCard';
+
+
+const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+// TODO remove, this demo shouldn't need to reset the theme.
+const defaultTheme = createTheme();
+
+export default function Album() {
+  return (
+    <ThemeProvider theme={defaultTheme}>
+      <CssBaseline />
+      
+        <Box sx= {{ bgcolor: 'background.paper', pt: 8,pb: 6,}}>
+            <Container maxWidth="sm">
+                <Typography component="h1" variant="h2" align="center" color="text.primary" gutterBottom>
+                firstName lastName
+                </Typography>
+
+                <ProfileList/>
+
+            </Container>
+        </Box>
+
+       <PostCard/>
+    
+       <Stack sx={{ pt: 4 }} direction="row" spacing={2}justifyContent="center" >
+            <Button variant="contained">Delete Account</Button>
+            <Button variant="outlined">Secondary action</Button>
+        </Stack>
+      
+      
+    </ThemeProvider>
+  );
+}
+
+
+
