@@ -72,14 +72,20 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import ProfileList from '../components/ProfileList';
-import PostCard from '../components/PostCard';
-
+import ProfileList from '../components/ProfilePage/ProfileList';
+import PostCard from '../components/ProfilePage/PostCard';
+import DeleteAccountButton from '../components/ProfilePage/DeleteAccountButton';
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
+
+
+function deleteProfile() {
+    console.log("profile deleted");
+}
+
 
 export default function Album() {
   return (
@@ -99,9 +105,10 @@ export default function Album() {
 
        <PostCard/>
     
-       <Stack sx={{ pt: 4 }} direction="row" spacing={2}justifyContent="center" >
-            <Button variant="contained">Delete Account</Button>
-            <Button variant="outlined">Secondary action</Button>
+       <Stack sx={{ pt: 4 }} direction="row" spacing={2}justifyContent="center" pb = {10}>
+            
+            <DeleteAccountButton />
+            <Button variant="outlined">Edit Account</Button>
         </Stack>
       
       

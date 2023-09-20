@@ -5,7 +5,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Avatar from '../components/Avatar';
+import Avatar from '../Avatar';
 
 
 //import * as React from 'react';
@@ -25,7 +25,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import ProfileList from '../components/ProfileList';
+import ProfileList from './ProfileList';
 
 
 
