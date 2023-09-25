@@ -7,8 +7,9 @@ import Resources from "./pages/Resources";
 import NotFound from "./pages/NotFound";
 import UserFields from "./pages/UserFields";
 import Profile from "./pages/Profile";
+import Adopt from "./pages/Adopt";
 
-const Router = () => {
+const Router = () => {  []
   return (
     <Routes>
       <Route path="/" element={<Home />} />
@@ -17,6 +18,7 @@ const Router = () => {
       <Route path="/resources" element={<Resources />} />
       <Route path="/userfields" element={<UserFields />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/adopt" element={<Adopt />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
     );
