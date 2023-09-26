@@ -9,7 +9,7 @@ import UserFields from "./pages/UserFields";
 import Profile from "./pages/Profile";
 import Adopt from "./pages/Adopt";
 
-const Router = () => {  []
+const Router = () => { 
   return (
     <Routes>
       <Route path="/" element={<Home />} />
