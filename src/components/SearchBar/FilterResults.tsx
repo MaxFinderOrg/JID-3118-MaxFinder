@@ -3,7 +3,16 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 
-const FilterResults = ({ results }) => {
+type Result = {
+  id: string;
+  name: string;
+};
+
+type FilterResultsProps = {
+  results: Result[];
+};
+
+const FilterResults: React.FC<FilterResultsProps> = ({ results }) => {
   return (
     <List>
       {results.map((result) => (
