@@ -16,4 +16,22 @@ This web application is to connect pet owners who have lost their pets with peop
 
 #### Known Issues
 * Small bugs within file structure
+* User is able to log in with wrong password
+* User is not able to update Email correctly
+
+
+### Version 0.2.0
+
+#### New Features
+* Firebase creation and connection
+* Lost and found pets page
+* User pages
+* Authentication for users upon sign in 
+
+#### Bug Fixes
+* Connecting to Firebase
+* GitHub merge conflicts
+
+#### Known Issues
+* Settings page uses JSON local storage instead of Firebase
 
