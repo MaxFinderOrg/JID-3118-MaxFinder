@@ -131,7 +131,7 @@ function NavBar() {
         <MenuItem href="/Profile" component="a"  onClick={handleClose}>
           <Avatar /> Profile
         </MenuItem>
-        <MenuItem href="/UserFields" component="a"  onClick={handleClose}>
+        <MenuItem href="/account" component="a"  onClick={handleClose}>
           <Avatar />  My Account
         </MenuItem>
         <Divider />
@@ -139,21 +139,7 @@ function NavBar() {
           <ListItemIcon>
             <PersonAdd fontSize="small" />
           </ListItemIcon>
-          Add another account
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-            
-          </ListItemIcon>
-          
           Settings
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <Logout fontSize="small" />
-          </ListItemIcon>
-          Logout
         </MenuItem>
       </Menu>
 
