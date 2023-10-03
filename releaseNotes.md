@@ -4,7 +4,7 @@ This web application is to connect pet owners who have lost their pets with peop
 [Licences under GNUv3 ](LICENSE.md)
 
 ## Release Notes
-### Version 0.1.0
+### Version 0.2.0
 
 #### New Features
 * GitHub setup
