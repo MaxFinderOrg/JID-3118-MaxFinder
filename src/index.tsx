@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
-  //comment1
+  //comment2
 );
 root.render(
   <React.StrictMode>
