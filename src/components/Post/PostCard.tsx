@@ -14,6 +14,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
+import 'firebase/compat/storage';
 
 export default function PostCard() {
   const [name, setName] = useState('');
@@ -25,6 +26,7 @@ export default function PostCard() {
   const [microchipped, setMicrochipped] = useState('');
   const [spayed, setSpayed] = useState('');
   const [image, setImage] = useState('');
+  const [imageRef, setImageRef] = useState('');
   
   const sizes = [
     {
@@ -64,14 +66,29 @@ export default function PostCard() {
       tagged: tagged,
       microchipped: microchipped,
       spayed: spayed,
+      image: imageRef,
     });
   }
 
   const onImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setImage(URL.createObjectURL(event.target.files[0]));
+      // give a unique name to the file
+      var fileName = "image-" + Date.now();
+
+      // Give reference to the bucket path where we require to store the uploaded image
+      var storageRef = firebase.storage().ref('/images/' + fileName);
+
+      // upload file to selected storage reference
+      var uploadingElement = storageRef.put(event.target.files[0]);
+      uploadingElement.snapshot.ref.getDownloadURL().then(
+        function (imageURL) {
+          setImageRef(imageURL);
+        }
+      );
     }
    }
+   
 
   return (
     <Card sx={{ width: 500 }}>
