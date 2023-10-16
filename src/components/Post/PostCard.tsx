@@ -24,6 +24,7 @@ export default function PostCard() {
   const [tagged, setTagged] = useState('');
   const [microchipped, setMicrochipped] = useState('');
   const [spayed, setSpayed] = useState('');
+  const [image, setImage] = useState('');
   
   const sizes = [
     {
@@ -65,6 +66,12 @@ export default function PostCard() {
       spayed: spayed,
     });
   }
+
+  const onImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setImage(URL.createObjectURL(event.target.files[0]));
+    }
+   }
 
   return (
     <Card sx={{ width: 500 }}>
@@ -172,7 +179,27 @@ export default function PostCard() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+
+              <FormLabel id="spayed-label">Upload a picture of your pet</FormLabel>
+              <div style={{marginTop: 4}}>
+                  <input type="file" onChange={onImageChange} className="filetype" />
+                  {image && (<Box
+                    component="img"
+                    sx={{
+                      height: 233,
+                      width: 350,
+                      marginTop: 2,
+                      maxHeight: { xs: 233, md: 167 },
+                      maxWidth: { xs: 350, md: 250 },
+                    }}
+                    alt="The photo of the pet"
+                    src={image}
+                  />)}
+                  
+              </div>
+              
             </FormControl>
+    
           </Box>
 
           <Stack spacing={2} direction="row" mt={3} sx={{ ml: 1 }}>
@@ -181,6 +208,7 @@ export default function PostCard() {
           </Stack>
 
         </Box>
+      
       </CardContent>
 
     </Card>
