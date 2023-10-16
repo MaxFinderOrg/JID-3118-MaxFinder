@@ -21,8 +21,8 @@ export default function PostCard() {
   const [color, setColor] = useState('');
   const [size, setSize] = useState('');
   const [gender, setGender] = useState('');
-  const [tag, setTag] = useState('');
-  const [microchip, setMicrochip] = useState('');
+  const [tagged, setTagged] = useState('');
+  const [microchipped, setMicrochipped] = useState('');
   const [spayed, setSpayed] = useState('');
   
   const sizes = [
@@ -60,8 +60,8 @@ export default function PostCard() {
       color: color,
       size: size,
       gender: gender,
-      tag: tag,
-      microchip: microchip,
+      tagged: tagged,
+      microchipped: microchipped,
       spayed: spayed,
     });
   }
@@ -69,12 +69,7 @@ export default function PostCard() {
   return (
     <Card sx={{ width: 500 }}>
       <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: red[500] }}>
-            FN
-          </Avatar>
-        }
-        title="FirstName LastName"
+        title="Report Lost Dog"
       />
 
       <CardContent>
@@ -147,26 +142,26 @@ export default function PostCard() {
                 row
                 onChange={(e) => setGender(e.target.value)}
               >
-                <FormControlLabel value="female" control={<Radio />} label="Female" />
-                <FormControlLabel value="male" control={<Radio />} label="Male" />
+                <FormControlLabel value="Female" control={<Radio />} label="Female" />
+                <FormControlLabel value="Male" control={<Radio />} label="Male" />
               </RadioGroup>
 
-              <FormLabel id="tag-label">Tag</FormLabel>
+              <FormLabel id="tagged-label">Tagged</FormLabel>
               <RadioGroup
                 row
-                onChange={(e) => setTag(e.target.value)}
+                onChange={(e) => setTagged(e.target.value)}
               >
-                <FormControlLabel value="true" control={<Radio />} label="Yes" />
-                <FormControlLabel value="false" control={<Radio />} label="No" />
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
 
-              <FormLabel id="microchip-label">Microchip</FormLabel>
+              <FormLabel id="microchipped-label">Microchipped</FormLabel>
               <RadioGroup
                 row
-                onChange={(e) => setMicrochip(e.target.value)}
+                onChange={(e) => setMicrochipped(e.target.value)}
               >
-                <FormControlLabel value="true" control={<Radio />} label="Yes" />
-                <FormControlLabel value="false" control={<Radio />} label="No" />
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
 
               <FormLabel id="spayed-label">Spayed/Neutered</FormLabel>
@@ -174,15 +169,15 @@ export default function PostCard() {
                 row
                 onChange={(e) => setSpayed(e.target.value)}
               >
-                <FormControlLabel value="true" control={<Radio />} label="Yes" />
-                <FormControlLabel value="false" control={<Radio />} label="No" />
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
             </FormControl>
           </Box>
 
           <Stack spacing={2} direction="row" mt={3} sx={{ ml: 1 }}>
             <Button variant="contained" onClick={handleSubmit}>Submit</Button>
-            <Button variant="outlined">Cancel</Button>
+            <Button variant="outlined" href='/posts'>Cancel</Button>
           </Stack>
 
         </Box>
