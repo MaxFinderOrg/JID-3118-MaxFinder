@@ -1,3 +1,6 @@
+
+
+
 import React, { useState } from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -15,33 +18,88 @@ import FormLabel from '@mui/material/FormLabel';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import { getDatabase, ref, child, get } from "firebase/database";
-import { ConstructionOutlined } from '@mui/icons-material';
 
-//handler
-const handleClick = (event: React.MouseEvent<HTMLElement>, text: string) => {
+
+
+function printData() {
   console.log("data printed");
+}
 
-  /*
-  const dbRef = ref(getDatabase());
-  get(child(dbRef, `users/${userId}`)).then((snapshot) => {
-    if (snapshot.exists()) {
-      console.log(snapshot.val());
-    } else {
-      console.log("No data available");
-    }
-    }).catch((error) => {
-    console.error(error);
-    });
-    */
-};
+export default function PostCard() {
+
+    //const transferredURL = window.location.pathname
+    const transferredURL = '/edit-post/123/4'
+    const transferredID =  transferredURL.split("/")[2];
+    console.log(`url: ${transferredURL}`);
+    console.log(`transfereedID: ${transferredID}`);
 
 
+    const [name, setName] = useState('');
+    const [breed, setBreed] = useState('');
+    const [color, setColor] = useState('');
+    const [size, setSize] = useState('');
+    const [gender, setGender] = useState('');
+    const [tagged, setTagged] = useState('');
+    const [microchipped, setMicrochipped] = useState('');
+    const [spayed, setSpayed] = useState('');
+    
 
-/*
-function editPost(postId, name, breed, color, size, gender, tagged, microchipped, spayed) {
-  const db = getDatabase();
-  set(ref(db, 'posts/' + postId), {
-    name: name,
+
+    const hardcodedData = {
+        "postID" : "1",
+        "name": "testname",
+        "breed": "testBreed",
+        "color": "testColor",
+        "size": "XS",
+        "gender": "Female",
+        "tagged": "Yes",
+        "microchipped": "No",
+        "spayed": "Yes",
+    };
+
+
+    const sizes = [
+        {
+        value: '',
+        label: '',
+        },
+        {
+        value: 'XS',
+        label: 'XSmall (Up to 20 lbs)',
+        },
+        {
+        value: 'S',
+        label: 'Small (20 to 30 lbs)',
+        },
+        {
+        value: 'M',
+        label: 'Medium (30 to 50 lbs)',
+        },
+        {
+        value: 'L',
+        label: 'Large (50 to 90 lbs)',
+        },
+        {
+        value: 'XL',
+        label: 'XLarge (90 lbs and Up)'
+        }
+    ];
+
+  const handleSubmit = () => {
+    //const cityRef = db.collection('post').doc('DC');
+
+    // Reference the document and use the update method to modify its fields
+    //await saveToFirebase.collection("post").doc(documentId).update(updatedData);
+
+    console.log("edit submit pressed");
+    const saveToFirebase = firebase.firestore();
+    const collectionRef = saveToFirebase.collection("post");
+    //missing step to identify which document you want
+    const documentId = collectionRef.id;
+
+
+    saveToFirebase.collection("post").doc(documentId).update({
+      name: name,
       breed: breed,
       color: color,
       size: size,
@@ -49,86 +107,15 @@ function editPost(postId, name, breed, color, size, gender, tagged, microchipped
       tagged: tagged,
       microchipped: microchipped,
       spayed: spayed,
-  });
-}
-
-*/
-
-
-
-export default function PostCard() {
-  const [name, setName] = useState('');
-  const [breed, setBreed] = useState('');
-  const [color, setColor] = useState('');
-  const [size, setSize] = useState('');
-  const [gender, setGender] = useState('');
-  const [tagged, setTagged] = useState('');
-  const [microchipped, setMicrochipped] = useState('');
-  const [spayed, setSpayed] = useState('');
-  
-  const sizes = [
-    {
-      value: '',
-      label: '',
-    },
-    {
-      value: 'XS',
-      label: 'XSmall (Up to 20 lbs)',
-    },
-    {
-      value: 'S',
-      label: 'Small (20 to 30 lbs)',
-    },
-    {
-      value: 'M',
-      label: 'Medium (30 to 50 lbs)',
-    },
-    {
-      value: 'L',
-      label: 'Large (50 to 90 lbs)',
-    },
-    {
-      value: 'XL',
-      label: 'XLarge (90 lbs and Up)'
-    }
-  ];
-
-
-
-  const handleSubmit = async () => {
-    console.log("submit pressed");
-
-    const saveToFirebase = firebase.firestore();
-    const collectionRef = saveToFirebase.collection("post");
-
-    try {
-      const newDocumentRef = await collectionRef.add({
-        name: name,
-        breed: breed,
-        color: color,
-        size: size,
-        gender: gender,
-        tagged: tagged,
-        microchipped: microchipped,
-        spayed: spayed,
-      });
-
-      // Retrieve the auto-generated document ID
-      const documentId = newDocumentRef.id;
-      console.log(`inputted info auto-generated id: ${documentId}`);
-      
-      // Continue with any other actions that depend on the document ID
-    } catch (error) {
-      console.error("Error adding document:", error);
-    }
-
-    console.log("submit pressed complete");
+    });
   }
+
+   
 
   return (
     <Card sx={{ width: 500 }}>
       <CardHeader
-        title="Report Lost Dog"
+        title="Edit Lost Dog"
       />
 
       <CardContent>
@@ -144,6 +131,7 @@ export default function PostCard() {
           }}
         >
           <TextField
+            defaultValue={ hardcodedData.name}
             required
             fullWidth
             id="outlined-required"
@@ -154,6 +142,7 @@ export default function PostCard() {
           />
 
           <TextField
+            defaultValue={ hardcodedData.breed}
             required
             fullWidth
             id="outlined-required"
@@ -164,6 +153,7 @@ export default function PostCard() {
           />
 
           <TextField
+            defaultValue={hardcodedData.color}
             required
             fullWidth
             id="outlined-required"
@@ -182,7 +172,7 @@ export default function PostCard() {
             SelectProps={{
               native: true,
             }}
-            defaultValue={''}
+            defaultValue={ hardcodedData.size}
             onChange={(e) => {
               setSize(e.target.value)
             }}
@@ -198,6 +188,7 @@ export default function PostCard() {
             <FormControl>
               <FormLabel id="gender-label">Gender</FormLabel>
               <RadioGroup
+                defaultValue={hardcodedData.gender}
                 row
                 onChange={(e) => setGender(e.target.value)}
               >
@@ -207,6 +198,7 @@ export default function PostCard() {
 
               <FormLabel id="tagged-label">Tagged</FormLabel>
               <RadioGroup
+                defaultValue={hardcodedData.tagged}
                 row
                 onChange={(e) => setTagged(e.target.value)}
               >
@@ -216,6 +208,7 @@ export default function PostCard() {
 
               <FormLabel id="microchipped-label">Microchipped</FormLabel>
               <RadioGroup
+                defaultValue={hardcodedData.microchipped}
                 row
                 onChange={(e) => setMicrochipped(e.target.value)}
               >
@@ -225,6 +218,7 @@ export default function PostCard() {
 
               <FormLabel id="spayed-label">Spayed/Neutered</FormLabel>
               <RadioGroup
+                defaultValue={hardcodedData.spayed}
                 row
                 onChange={(e) => setSpayed(e.target.value)}
               >
@@ -237,8 +231,8 @@ export default function PostCard() {
           <Stack spacing={2} direction="row" mt={3} sx={{ ml: 1 }}>
             <Button variant="contained" onClick={handleSubmit}>Submit</Button>
             <Button variant="outlined" href='/posts'>Cancel</Button>
-            <Button variant="contained" onClick={(e) => handleClick(e, "clicked")}>print data</Button>
-            <Button variant="outlined" href='/edit-post'>Edit</Button>
+            
+           
           </Stack>
 
         </Box>

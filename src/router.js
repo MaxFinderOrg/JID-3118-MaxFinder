@@ -13,6 +13,7 @@ import LogIn from "./components/LogIn";
 import ForgotPassword from "./components/ForgotPassword";
 import UpdateProfile from "./components/UpdateProfile";
 import PrivateRoute from "./components/PrivateRoute";
+import EditPost from "./pages/EditPost";
 
 const Router1 = () => {
   return (
@@ -21,6 +22,8 @@ const Router1 = () => {
             <Route exact path='/' element={<Home/>}/>
       </Route>
       <Route path="/create-post" element={<CreatePost />} />
+      <Route path="/edit-post" element={<EditPost />} />
+      <Route path="/posts" element={<Posts />} />
       <Route path="/posts" element={<Posts />} />
       <Route path="/home" element={<Home />} />
       <Route path="/contactus" element={<ContactUs />} />
@@ -28,8 +31,7 @@ const Router1 = () => {
       <Route path="/account" element={<Account />} />
       <Route path="/profile" element={<Profile />} />
       <Route exact path='/update-profile' element={<PrivateRoute/>}>
-            <Route exact path='/update-profile' element={<UpdateProfile/>}/>
-      </Route>
+      <Route exact path='/update-profile' element={<UpdateProfile/>}/></Route>
       <Route path="/signup" element={<SignUp/>} />
       <Route path="/login" element={<LogIn/>} />
       <Route path="/forgot-password" element={<ForgotPassword/>} />
