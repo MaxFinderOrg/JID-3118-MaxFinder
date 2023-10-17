@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
+import Moment from 'moment';
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -25,7 +26,7 @@ const Posts = () => {
 
   useEffect(() => {
     getPosts()
-  }, [posts])
+  }, [])
 
   return (
     <Box
@@ -49,6 +50,9 @@ const Posts = () => {
               image={post.image}
             />
             <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                Posted Date: {Moment(post.date).format('d MMM yyyy')}
+              </Typography>
               <Typography gutterBottom variant="h5" component="div">
                 {post.name}
               </Typography>

@@ -15,6 +15,7 @@ import FormLabel from '@mui/material/FormLabel';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/storage';
+//import Moment from 'moment';
 
 export default function PostCard() {
   const [name, setName] = useState('');
@@ -67,6 +68,7 @@ export default function PostCard() {
       microchipped: microchipped,
       spayed: spayed,
       image: imageRef,
+      date: Date.now()
     });
   }
 
@@ -75,7 +77,7 @@ export default function PostCard() {
       setImage(URL.createObjectURL(event.target.files[0]));
       // give a unique name to the file
       var fileName = "image-" + Date.now();
-
+     // console.log(Moment(Date.now()).format('d MMM yyyy'));
       // Give reference to the bucket path where we require to store the uploaded image
       var storageRef = firebase.storage().ref('/images/' + fileName);
 
