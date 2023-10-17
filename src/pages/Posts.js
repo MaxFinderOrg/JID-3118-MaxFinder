@@ -41,9 +41,9 @@ const Posts = () => {
       }}
     >
       <Button variant="contained" href='/create-post' sx={{ width: 350 }}>Create Post</Button>
-      {posts && posts.map(post => {
+      {posts && posts.map((post, index) => {
         return(
-          <Card key={post.name} sx={{ width: 350, mt: 5 }}>
+          <Card key={index} sx={{ width: 350, mt: 5 }}>
             <CardMedia
               sx={{ height: 140 }}
               image={require("../static/images/dog.jpg")}
