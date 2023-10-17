@@ -40,7 +40,6 @@ const Posts = () => {
         borderRadius: 1,
       }}
     >
-      <Button variant="contained" href='/create-post' sx={{ width: 350 }}>Create Post</Button>
       {posts && posts.map(post => {
         return(
           <Card key={post.name} sx={{ width: 350, mt: 5 }}>
