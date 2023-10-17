@@ -8,11 +8,7 @@ import { Container } from '@mui/material';
 function App() {
   return (
     <BrowserRouter>
-      <NavigationBar />
-      <Container>
-        <Router />
-      </Container>
-    </BrowserRouter>
+     
   );
 }
 
