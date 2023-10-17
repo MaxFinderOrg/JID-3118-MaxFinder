@@ -66,6 +66,8 @@ export default function PostCard() {
       tagged: tagged,
       microchipped: microchipped,
       spayed: spayed,
+      imageRef: imageRef,
+      date: Date.now()
     });
   }
 

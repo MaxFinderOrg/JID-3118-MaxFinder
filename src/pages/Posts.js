@@ -48,6 +48,9 @@ const Posts = () => {
               image={post.imageRef}
             />
             <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+                Date Posted: {post.date}
+              </Typography>
               <Typography gutterBottom variant="h5" component="div">
                 {post.name}
               </Typography>
