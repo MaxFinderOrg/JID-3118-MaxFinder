@@ -89,6 +89,13 @@ const FilterOptions: React.FC<FilterOptionsProps> = ({ filters, onFilterChange }
     });
   };
 
+  const handleDeleteChip = (filterName: string, index: number) => {
+    // Remove the chip from the filterCriteria array
+    const updatedFilterCriteria = { ...filterCriteria };
+    updatedFilterCriteria[filterName].splice(index, 1);
+    setFilterCriteria(updatedFilterCriteria);
+  };
+
   const handlePopupClose = (filterName: string) => {
     // Remove the criteria and prevent adding a chip
     setFilterCriteria((prevFilterCriteria) => ({
@@ -180,6 +187,7 @@ const FilterOptions: React.FC<FilterOptionsProps> = ({ filters, onFilterChange }
               <Chip
                 key={`${filterName}:${index}`}
                 label={`${filterOptions[filterName].label}: ${criteria}`}
+                onDelete={() => handleDeleteChip(filterName, index)}
                 variant="outlined"
                 sx={{margin: '3px'}}
               />
