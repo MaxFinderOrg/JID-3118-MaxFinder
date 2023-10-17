@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
+import CreatePost from "./pages/CreatePost";
 import Posts from "./pages/Posts";
 import ContactUs from "./pages/Contact";
 import Resources from "./pages/Resources";
@@ -19,19 +20,20 @@ const Router1 = () => {
       <Route exact path='/' element={<PrivateRoute/>}>
             <Route exact path='/' element={<Home/>}/>
       </Route>
+      <Route path="/create-post" element={<CreatePost />} />
       <Route path="/posts" element={<Posts />} />
       <Route path="/home" element={<Home />} />
       <Route path="/contactus" element={<ContactUs />} />
       <Route path="/resources" element={<Resources />} />
       <Route path="/account" element={<Account />} />
       <Route path="/profile" element={<Profile />} />
-      <Route path="*" element={<NotFound />} />
       <Route exact path='/update-profile' element={<PrivateRoute/>}>
             <Route exact path='/update-profile' element={<UpdateProfile/>}/>
       </Route>
       <Route path="/signup" element={<SignUp/>} />
       <Route path="/login" element={<LogIn/>} />
       <Route path="/forgot-password" element={<ForgotPassword/>} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
     );
   }
