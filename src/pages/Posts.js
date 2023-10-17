@@ -26,7 +26,7 @@ const Posts = () => {
 
   useEffect(() => {
     getPosts()
-  }, [posts])
+  }, [])
 
   return (
     <Box
