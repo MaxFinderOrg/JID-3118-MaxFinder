@@ -56,6 +56,10 @@ const Posts = () => {
 
   return (
     <div>
+      <div style={{ marginTop: '2em' }}>
+        <Button variant="contained" href='/create-post' sx={{ width: 350 }}>Create Post</Button>
+      </div>
+      
       {posts.map(post => (
         <Box
         sx={{
@@ -69,7 +73,7 @@ const Posts = () => {
           borderRadius: 1,
         }}
       >
-        <Button variant="contained" href='/create-post' sx={{ width: 350 }}>Create Post</Button>
+        
           <Card sx={{ width: 350, mt: 5 }}>
             <CardMedia
               sx={{ height: 140 }}

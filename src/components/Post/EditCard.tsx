@@ -80,13 +80,6 @@ export default function EditCard() {
   }, []);
 
 
-  console.log(`new name: ${name}`);
-  console.log(`new size: ${size}`);
-  console.log(`new spay: ${spayed}`);
-
-
-    
-
 
     const sizes = [
         {
@@ -123,23 +116,33 @@ export default function EditCard() {
 
     console.log("edit submit pressed");
     
+
     const saveToFirebase = firebase.firestore();
-    const collectionRef = saveToFirebase.collection("post");
-    //missing step to identify which document you want
-    //this might be "transferredID"
-    const documentId = collectionRef.id;
 
+    // You don't need to create a collection reference here
+    // You can directly reference the document by its path
+    // Also, make sure `transferredID` is the correct document ID
+    const postRef = saveToFirebase.collection("post").doc(transferredID);
 
-    saveToFirebase.collection("post").doc(documentId).update({
-      name: name,
-      breed: breed,
-      color: color,
-      size: size,
-      gender: gender,
-      tagged: tagged,
-      microchipped: microchipped,
-      spayed: spayed,
+    // Update the document with the new values from state variables
+    postRef.update({
+        name: name,
+        breed: breed,
+        color: color,
+        size: size,
+        gender: gender,
+        tagged: tagged,
+        microchipped: microchipped,
+        spayed: spayed,
+    })
+    .then(() => {
+        console.log("Document successfully updated");
+    })
+    .catch((error) => {
+        console.error("Error updating document:", error);
     });
+
+
   }
 
    
