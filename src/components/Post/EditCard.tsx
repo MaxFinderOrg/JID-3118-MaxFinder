@@ -1,7 +1,7 @@
 
 
 
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
@@ -21,17 +21,14 @@ import { getDatabase, ref, child, get } from "firebase/database";
 
 
 
-function printData() {
-  console.log("data printed");
-}
 
 export default function EditCard() {
 
     const transferredURL = window.location.pathname
     //const transferredURL = '/edit-post/123/4'
     const transferredID =  transferredURL.split("/")[2];
-    console.log(`url: ${transferredURL}`);
-    console.log(`transfereedID: ${transferredID}`);
+    //console.log(`url: ${transferredURL}`);
+    //console.log(`transfereedID: ${transferredID}`);
 
     
     const [name, setName] = useState('');
@@ -45,18 +42,50 @@ export default function EditCard() {
     
 
     
+    const postRef = firebase.firestore().collection('post').doc(transferredID);
+    
+    
+    useEffect(() => {
+      const fetchData = async () => {
+          try {
+              const doc = await postRef.get();
+              if (!doc.exists) {
+                  console.log('No such document!');
+              } else {
+                  const data = doc.data();
+                  console.log('Document data:', data);
 
-    const hardcodedData = {
-        "postID" : transferredID,
-        "name": "testname",
-        "breed": "testBreed",
-        "color": "testColor",
-        "size": "XS",
-        "gender": "Female",
-        "tagged": "Yes",
-        "microchipped": "No",
-        "spayed": "Yes",
-    };
+                  // Set the state variables with the retrieved data
+                  if (data) {
+                    console.log("changing attributes");
+                    setName(data.name);
+                    setBreed(data.breed );
+                    setColor(data.color);
+                    setSize(data.size );
+                    setGender(data.gender);
+                    setTagged(data.tagged );
+                    setMicrochipped(data.microchipped);
+                    setSpayed(data.spayed );
+                  }
+
+                  
+              }
+          } catch (error) {
+              console.error('Error fetching document:', error);
+          }
+          
+      };
+
+      fetchData();
+  }, []);
+
+
+  console.log(`new name: ${name}`);
+  console.log(`new size: ${size}`);
+  console.log(`new spay: ${spayed}`);
+
+
+    
 
 
     const sizes = [
@@ -133,10 +162,10 @@ export default function EditCard() {
             borderRadius: 1,
           }}
         >
-        <TextField label="Auto-generated PostID" disabled defaultValue= {hardcodedData.postID}  />
+        <TextField label="Auto-generated PostID" disabled value= {transferredID}  />
           
           <TextField
-            defaultValue= {hardcodedData.name}
+            value= {name}
             required
             fullWidth
             id="outlined-required"
@@ -147,7 +176,7 @@ export default function EditCard() {
           />
 
           <TextField
-            defaultValue={ hardcodedData.breed}
+            value={breed}
             required
             fullWidth
             id="outlined-required"
@@ -158,7 +187,7 @@ export default function EditCard() {
           />
 
           <TextField
-            defaultValue={hardcodedData.color}
+            value={color}
             required
             fullWidth
             id="outlined-required"
@@ -177,7 +206,7 @@ export default function EditCard() {
             SelectProps={{
               native: true,
             }}
-            defaultValue={ hardcodedData.size}
+            value={ size}
             onChange={(e) => {
               setSize(e.target.value)
             }}
@@ -193,7 +222,7 @@ export default function EditCard() {
             <FormControl>
               <FormLabel id="gender-label">Gender</FormLabel>
               <RadioGroup
-                defaultValue={hardcodedData.gender}
+                value={gender}
                 row
                 onChange={(e) => setGender(e.target.value)}
               >
@@ -203,7 +232,7 @@ export default function EditCard() {
 
               <FormLabel id="tagged-label">Tagged</FormLabel>
               <RadioGroup
-                defaultValue={hardcodedData.tagged}
+                value={tagged}
                 row
                 onChange={(e) => setTagged(e.target.value)}
               >
@@ -213,7 +242,7 @@ export default function EditCard() {
 
               <FormLabel id="microchipped-label">Microchipped</FormLabel>
               <RadioGroup
-                defaultValue={hardcodedData.microchipped}
+                value={microchipped}
                 row
                 onChange={(e) => setMicrochipped(e.target.value)}
               >
@@ -223,7 +252,7 @@ export default function EditCard() {
 
               <FormLabel id="spayed-label">Spayed/Neutered</FormLabel>
               <RadioGroup
-                defaultValue={hardcodedData.spayed}
+                value={spayed}
                 row
                 onChange={(e) => setSpayed(e.target.value)}
               >

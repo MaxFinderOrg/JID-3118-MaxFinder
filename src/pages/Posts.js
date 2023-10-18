@@ -23,21 +23,6 @@ async function getAllPosts() {
     return [];
   }  
 
-  /*
-  snapshot.forEach(doc => {
-    console.log(doc.id, '=>', doc.data());
-  });
-  
- */
-
-  /*
-  snapshot.forEach(doc => {
-    console.log(doc.id);
-    console.log(doc.data());
-    console.log("-----------\n\n\n\n")
-  });
-  */
-
   //console.log(typeof(snapshot));
   const postsData = snapshot.docs.map(doc => {
     const data = doc.data();
@@ -53,8 +38,6 @@ async function getAllPosts() {
 
 const Posts = () => {
   
-
-
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -70,17 +53,6 @@ const Posts = () => {
   console.log(posts); // Log the raw data to the console
   
 
-  const hardcodedData = {
-    "postID" : "1",
-    "name": "testname",
-    "breed": "testBreed",
-    "color": "testColor",
-    "size": "testSize",
-    "gender": "testGender",
-    "tagged": "testTagged",
-    "microchipped": "testMicrochipped",
-    "spayed": "testSpayed",
-  };
 
   return (
     <div>
@@ -132,8 +104,18 @@ const Posts = () => {
             <CardActions>
               <Button size="small">Share</Button>
               <Button size="small">Learn More</Button>
-              <Button size="small" href = "/edit-post/15553">Edit Post</Button>
-              
+
+             
+
+              <Button onClick={() => {
+                  const url = '/edit-post/' + post.id;
+                  window.location.assign(url);
+                }}>
+                Edit Post 
+              </Button>
+
+
+             
             </CardActions>
           </Card>
       </Box>
