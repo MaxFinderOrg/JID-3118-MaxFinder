@@ -22,7 +22,6 @@ const Router1 = () => {
             <Route exact path='/' element={<Home/>}/>
       </Route>
       <Route path="/create-post" element={<CreatePost />} />
-      <Route path="/edit-post" element={<EditPost />} />
       <Route path="/posts" element={<Posts />} />
       <Route path="/posts" element={<Posts />} />
       <Route path="/home" element={<Home />} />
@@ -35,6 +34,18 @@ const Router1 = () => {
       <Route path="/signup" element={<SignUp/>} />
       <Route path="/login" element={<LogIn/>} />
       <Route path="/forgot-password" element={<ForgotPassword/>} />
+      
+    
+      <Route path="/edit-post/:PostID" 
+        loader={({ params }) => {
+          console.log(params.PostID); // link: https://reactrouter.com/en/main/route/route
+        }}
+        element={<EditPost />} 
+      />
+      
+      
+
+      
       <Route path="*" element={<NotFound />} />
     </Routes>
     );

@@ -25,15 +25,15 @@ function printData() {
   console.log("data printed");
 }
 
-export default function PostCard() {
+export default function EditCard() {
 
-    //const transferredURL = window.location.pathname
-    const transferredURL = '/edit-post/123/4'
+    const transferredURL = window.location.pathname
+    //const transferredURL = '/edit-post/123/4'
     const transferredID =  transferredURL.split("/")[2];
     console.log(`url: ${transferredURL}`);
     console.log(`transfereedID: ${transferredID}`);
 
-
+    
     const [name, setName] = useState('');
     const [breed, setBreed] = useState('');
     const [color, setColor] = useState('');
@@ -44,9 +44,10 @@ export default function PostCard() {
     const [spayed, setSpayed] = useState('');
     
 
+    
 
     const hardcodedData = {
-        "postID" : "1",
+        "postID" : transferredID,
         "name": "testname",
         "breed": "testBreed",
         "color": "testColor",
@@ -92,9 +93,11 @@ export default function PostCard() {
     //await saveToFirebase.collection("post").doc(documentId).update(updatedData);
 
     console.log("edit submit pressed");
+    
     const saveToFirebase = firebase.firestore();
     const collectionRef = saveToFirebase.collection("post");
     //missing step to identify which document you want
+    //this might be "transferredID"
     const documentId = collectionRef.id;
 
 
@@ -130,8 +133,10 @@ export default function PostCard() {
             borderRadius: 1,
           }}
         >
+        <TextField label="Auto-generated PostID" disabled defaultValue= {hardcodedData.postID}  />
+          
           <TextField
-            defaultValue={ hardcodedData.name}
+            defaultValue= {hardcodedData.name}
             required
             fullWidth
             id="outlined-required"

@@ -37,22 +37,6 @@ const handleClick = (event: React.MouseEvent<HTMLElement>, text: string) => {
 
 
 
-/*
-function editPost(postId, name, breed, color, size, gender, tagged, microchipped, spayed) {
-  const db = getDatabase();
-  set(ref(db, 'posts/' + postId), {
-    name: name,
-      breed: breed,
-      color: color,
-      size: size,
-      gender: gender,
-      tagged: tagged,
-      microchipped: microchipped,
-      spayed: spayed,
-  });
-}
-
-*/
 
 
 
@@ -96,7 +80,7 @@ export default function PostCard() {
 
 
   const handleSubmit = async () => {
-    console.log("submit pressed");
+    console.log("submit post pressed");
 
     const saveToFirebase = firebase.firestore();
     const collectionRef = saveToFirebase.collection("post");
