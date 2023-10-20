@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
+import CreatePost from "./pages/CreatePost";
 import Posts from "./pages/Posts";
 import ContactUs from "./pages/Contact";
 import Resources from "./pages/Resources";
@@ -12,6 +13,7 @@ import LogIn from "./components/LogIn";
 import ForgotPassword from "./components/ForgotPassword";
 import UpdateProfile from "./components/UpdateProfile";
 import PrivateRoute from "./components/PrivateRoute";
+import EditPost from "./pages/EditPost";
 
 const Router1 = () => {
   return (
@@ -19,19 +21,32 @@ const Router1 = () => {
       <Route exact path='/' element={<PrivateRoute/>}>
             <Route exact path='/' element={<Home/>}/>
       </Route>
+      <Route path="/create-post" element={<CreatePost />} />
+      <Route path="/posts" element={<Posts />} />
       <Route path="/posts" element={<Posts />} />
       <Route path="/home" element={<Home />} />
       <Route path="/contactus" element={<ContactUs />} />
       <Route path="/resources" element={<Resources />} />
       <Route path="/account" element={<Account />} />
       <Route path="/profile" element={<Profile />} />
-      <Route path="*" element={<NotFound />} />
       <Route exact path='/update-profile' element={<PrivateRoute/>}>
-            <Route exact path='/update-profile' element={<UpdateProfile/>}/>
-      </Route>
+      <Route exact path='/update-profile' element={<UpdateProfile/>}/></Route>
       <Route path="/signup" element={<SignUp/>} />
       <Route path="/login" element={<LogIn/>} />
       <Route path="/forgot-password" element={<ForgotPassword/>} />
+      
+    
+      <Route path="/edit-post/:PostID" 
+        loader={({ params }) => {
+          console.log(params.PostID); // link: https://reactrouter.com/en/main/route/route
+        }}
+        element={<EditPost />} 
+      />
+      
+      
+
+      
+      <Route path="*" element={<NotFound />} />
     </Routes>
     );
   }
