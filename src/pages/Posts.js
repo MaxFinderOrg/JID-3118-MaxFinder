@@ -80,6 +80,9 @@ const Posts = () => {
               image={require("../static/images/dog.jpg")}
             />
             <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              Pet Status: {post.petStatus}
+              </Typography>
               <Typography gutterBottom variant="h5" component="div">
               Name: {post.name}
               </Typography>
