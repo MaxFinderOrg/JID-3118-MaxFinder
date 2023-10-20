@@ -5,6 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
 import { red } from '@mui/material/colors';
 import { FormControl, TextField } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -49,6 +50,7 @@ export default function PostCard() {
   const [tagged, setTagged] = useState('');
   const [microchipped, setMicrochipped] = useState('');
   const [spayed, setSpayed] = useState('');
+  const [petStatus, setPetStatus] = useState('');
   
   const sizes = [
     {
@@ -95,6 +97,7 @@ export default function PostCard() {
         tagged: tagged,
         microchipped: microchipped,
         spayed: spayed,
+        petStatus: petStatus,
       });
 
       // Retrieve the auto-generated document ID
@@ -112,7 +115,7 @@ export default function PostCard() {
   return (
     <Card sx={{ width: 500 }}>
       <CardHeader
-        title="Report Lost Dog"
+        title={<div style={{ textAlign: 'center'}}>Report Pet</div>}
       />
 
       <CardContent>
@@ -127,6 +130,22 @@ export default function PostCard() {
             borderRadius: 1,
           }}
         >
+        <div>
+          <h6>If you found a pet that was lost, report pet as Found. If you lost your pet, report pet as Lost.</h6>
+        </div>
+          <Box sx={{ ml: 1, mt: 2 }}>
+            <FormControl>
+              <FormLabel id="petStatus-label">Pet Status</FormLabel>
+              <RadioGroup
+                row
+                onChange={(e) => setPetStatus(e.target.value)}
+              >
+                <FormControlLabel value="Found" control={<Radio />} label="Found" />
+                <FormControlLabel value="Lost" control={<Radio />} label="Lost" />
+              </RadioGroup>
+            </FormControl>
+          </Box>
+          
           <TextField
             required
             fullWidth

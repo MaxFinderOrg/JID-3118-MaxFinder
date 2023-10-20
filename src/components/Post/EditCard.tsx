@@ -39,6 +39,7 @@ export default function EditCard() {
     const [tagged, setTagged] = useState('');
     const [microchipped, setMicrochipped] = useState('');
     const [spayed, setSpayed] = useState('');
+    const [petStatus, setPetStatus] = useState('');
     
 
     
@@ -66,6 +67,7 @@ export default function EditCard() {
                     setTagged(data.tagged );
                     setMicrochipped(data.microchipped);
                     setSpayed(data.spayed );
+                    setPetStatus(data.petStatus)
                   }
 
                   
@@ -134,6 +136,7 @@ export default function EditCard() {
         tagged: tagged,
         microchipped: microchipped,
         spayed: spayed,
+        petStatus: petStatus,
     })
     .then(() => {
         console.log("Document successfully updated");
@@ -150,7 +153,7 @@ export default function EditCard() {
   return (
     <Card sx={{ width: 500 }}>
       <CardHeader
-        title="Edit Lost Dog"
+        title="Edit Pet Report"
       />
 
       <CardContent>
@@ -166,6 +169,19 @@ export default function EditCard() {
           }}
         >
         <TextField label="Auto-generated PostID" disabled value= {transferredID}  />
+          
+        <Box sx={{ ml: 1, mt: 2 }}>
+            <FormControl>
+              <FormLabel id="petStatus-label">Pet Status</FormLabel>
+              <RadioGroup
+                row
+                onChange={(e) => setPetStatus(e.target.value)}
+              >
+                <FormControlLabel value="Found" control={<Radio />} label="Found" />
+                <FormControlLabel value="Lost" control={<Radio />} label="Lost" />
+              </RadioGroup>
+            </FormControl>
+          </Box>
           
           <TextField
             value= {name}
