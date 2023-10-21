@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
@@ -16,7 +16,9 @@ import FormLabel from '@mui/material/FormLabel';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import { getDatabase, ref, child, get } from "firebase/database";
+import {getDownloadURL} from "firebase/storage";
 import { ConstructionOutlined } from '@mui/icons-material';
+import 'firebase/compat/storage';
 
 //handler
 const handleClick = (event: React.MouseEvent<HTMLElement>, text: string) => {
@@ -51,6 +53,8 @@ export default function PostCard() {
   const [microchipped, setMicrochipped] = useState('');
   const [spayed, setSpayed] = useState('');
   const [petStatus, setPetStatus] = useState('');
+  const [image, setImage] = useState('');
+  const [imageRef, setImageRef] = useState('');
   
   const sizes = [
     {
@@ -98,6 +102,8 @@ export default function PostCard() {
         microchipped: microchipped,
         spayed: spayed,
         petStatus: petStatus,
+        imageRef: imageRef,
+        date: Date.now()
       });
 
       // Retrieve the auto-generated document ID
@@ -111,6 +117,28 @@ export default function PostCard() {
 
     console.log("submit pressed complete");
   }
+
+  const onImageChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setImage(URL.createObjectURL(event.target.files[0]));
+
+      // give a unique name to the file
+      var fileName = "image-" + Date.now();
+
+      // Give reference to the bucket path where we require to store the uploaded image
+      var storageRef = firebase.storage().ref('/images/' + fileName);
+
+      // upload file to selected storage reference
+      var uploadingElement = await storageRef.put(event.target.files[0]);
+      const downloadURL = await getDownloadURL(storageRef);
+      setImageRef(downloadURL);
+     // uploadingElement.snapshot.ref.getDownloadURL().then(
+       // function (imageURL) {
+         
+      
+    }
+   }
+
 
   return (
     <Card sx={{ width: 500 }}>
@@ -143,6 +171,7 @@ export default function PostCard() {
                 <FormControlLabel value="Found" control={<Radio />} label="Found" />
                 <FormControlLabel value="Lost" control={<Radio />} label="Lost" />
               </RadioGroup>
+
             </FormControl>
           </Box>
           
@@ -234,6 +263,23 @@ export default function PostCard() {
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
+              <FormLabel id="spayed-label">Upload a picture of your pet</FormLabel>
+              <div style={{marginTop: 4}}>
+                  <input type="file" onChange={onImageChange} className="filetype" />
+                  {image && (<Box
+                    component="img"
+                    sx={{
+                      height: 233,
+                      width: 350,
+                      marginTop: 2,
+                      maxHeight: { xs: 233, md: 167 },
+                      maxWidth: { xs: 350, md: 250 },
+                    }}
+                    alt="The photo of the pet"
+                    src={image}
+                  />)}
+
+              </div>
             </FormControl>
           </Box>
 

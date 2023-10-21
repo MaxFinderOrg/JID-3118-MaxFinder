@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import { dbb } from '../firebase'; // Import the db reference from firebase.js
+import Moment from 'moment';
 
 
 async function getAllPosts() {
@@ -77,9 +78,12 @@ const Posts = () => {
           <Card sx={{ width: 350, mt: 5 }}>
             <CardMedia
               sx={{ height: 140 }}
-              image={require("../static/images/dog.jpg")}
+              image={post.imageRef}
             />
             <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+                  Posted Date: {Moment(post.date).format('d MMM yyyy')}
+              </Typography>
             <Typography gutterBottom variant="h5" component="div">
               Pet Status: {post.petStatus}
               </Typography>
