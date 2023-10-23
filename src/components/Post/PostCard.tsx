@@ -110,6 +110,7 @@ export default function PostCard() {
     }
 
     console.log("submit pressed complete");
+    window.location.href = '/posts'; // Redirect to the posts page after deletion
   }
 
   return (

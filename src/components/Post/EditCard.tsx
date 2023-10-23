@@ -140,13 +140,39 @@ export default function EditCard() {
     })
     .then(() => {
         console.log("Document successfully updated");
+        window.location.href = '/posts';
     })
     .catch((error) => {
         console.error("Error updating document:", error);
     });
 
-
   }
+
+  const handleDelete = () => {
+    // Ask for confirmation from the user before deleting the post
+    const isConfirmed = window.confirm("Are you sure you want to delete this post?");
+
+    if (!isConfirmed) {
+        // If the user cancels the deletion, do nothing
+        return;
+    }
+
+    console.log("delete submit pressed");
+    
+    const saveToFirebase = firebase.firestore();
+    const postRef = saveToFirebase.collection("post").doc(transferredID);
+
+    // Delete the document
+    postRef.delete()
+    .then(() => {
+        console.log("Document successfully deleted");
+        window.location.href = '/posts'; // Redirect to the posts page after deletion
+    })
+    .catch((error) => {
+        console.error("Error deleting document:", error);
+    });
+}
+
 
    
 
@@ -284,7 +310,7 @@ export default function EditCard() {
           <Stack spacing={2} direction="row" mt={3} sx={{ ml: 1 }}>
             <Button variant="contained" onClick={handleSubmit}>Submit</Button>
             <Button variant="outlined" href='/posts'>Cancel</Button>
-            
+            <Button variant="contained" onClick={handleDelete}>Delete</Button>
            
           </Stack>
 
