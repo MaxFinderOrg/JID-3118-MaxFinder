@@ -17,6 +17,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import { getDatabase, ref, child, get } from "firebase/database";
 import { ConstructionOutlined } from '@mui/icons-material';
+import Map from './Map2.tsx';
 
 //handler
 const handleClick = (event: React.MouseEvent<HTMLElement>, text: string) => {
@@ -236,7 +237,23 @@ export default function PostCard() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
             </FormControl>
+
+            
           </Box>
+
+
+
+
+
+          <Map/>
+          
+
+            
+
+            
+
+
+
 
           <Stack spacing={2} direction="row" mt={3} sx={{ ml: 1 }}>
             <Button variant="contained" onClick={handleSubmit}>Submit</Button>
