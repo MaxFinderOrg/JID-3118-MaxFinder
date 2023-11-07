@@ -69,7 +69,7 @@ export default function Map() {
        .then((featureCollection) => {
          
         console.log("feature collection:")
-        console.log(featureCollection);
+        //console.log(featureCollection);
         //const foundAddress = featureCollection.features[0];
         const selectedJSON = featureCollection.results[0];
 

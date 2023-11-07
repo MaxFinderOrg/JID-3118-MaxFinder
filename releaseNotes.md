@@ -55,3 +55,26 @@ This web application is to connect pet owners who have lost their pets with peop
 * Handle submit after posting to redirect to home page
 * Center only certain pages not all
 
+
+
+
+### Version 0.4.0
+
+#### New Features
+* User is able to add location of lost/found pet
+* User is able to edit location of lost/found pet
+* User is able to filter by location of lost/found pet
+* User is able to recieve notifications
+
+
+#### Bug Fixes
+* Accepting and saving location data to backend
+* Handle submit now stays on correct page
+
+
+#### Known Issues
+* Notification center has limited capabilities
+
+
+
+
