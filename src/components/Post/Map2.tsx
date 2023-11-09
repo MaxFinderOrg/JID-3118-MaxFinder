@@ -4,6 +4,17 @@ import GoogleMapReact from "google-map-react";
 /*import Marker from "google-map-react"; */
 import {fromLatLng } from "react-geocode";
   
+interface MapProps {
+  onMapData: (
+    userLocation: { lat: number; lng: number },
+    markerLocation: { lat: number; lng: number },
+    address: string,
+    country: string,
+    state: string,
+    county: string,
+    city: string
+  ) => void;
+}
 
 const Marker = ({ lat, lng } : { lat: number, lng: number }) => (
     <div
@@ -18,7 +29,7 @@ const Marker = ({ lat, lng } : { lat: number, lng: number }) => (
   );
 
 
-export default function Map() {
+const Map = ({ onMapData }: MapProps) => {
     const mapStyles = {
         height: "400px",
         width: "400px",
@@ -31,11 +42,11 @@ export default function Map() {
     const [userLocation, setUserLocation] = useState<{ lat: number; lng: number }>(initialUserLocation);
     const [markerLocation, setMarkerLocation] = useState<{ lat: number; lng: number } | null>(null);
 
-
-    const [address, setAddress] = useState<string | null>(null);
-    const [country, setCountry] = useState<string | null>(null);
-    const [state, setState] = useState<string | null>(null);
-    const [city, setCity] = useState<string | null>(null);
+    const [address, setAddress] = useState('');
+    const [country, setCountry] = useState('');
+    const [state, setState] = useState('');
+    const [county, setCounty] = useState('');
+    const [city, setCity] = useState('');
    
 
 
@@ -50,64 +61,40 @@ export default function Map() {
     }, []);
 
     const handleMapClick = ({ lat, lng, event }: { lat: number, lng: number, event: any }) => {
-        // Update the markerLocation state with the clicked coordinates
-        console.log(`handleMapClick(): (${lat}, ${lng})`);
-        setMarkerLocation({ lat, lng });
-
-
-        const myAPIKey = "d6b32867b992488091820bcca116a039";
-        const reverseGeocodingUrl = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&format=json&&apiKey=${myAPIKey}`;
-  
-       // call Reverse Geocoding API - https://www.geoapify.com/reverse-geocoding-api/
-       fetch(reverseGeocodingUrl)
-       .then((response) => {
-         if (!response.ok) {
-           throw new Error("Network response was not ok");
-         }
-         return response.json();
-       })
-       .then((featureCollection) => {
-         
-        console.log("feature collection:")
-        //console.log(featureCollection);
-        //const foundAddress = featureCollection.features[0];
-        const selectedJSON = featureCollection.results[0];
-
-        console.log("selectedJSON:")
-        console.log(selectedJSON);
-
-        setAddress(selectedJSON.formatted);
-        console.log(`address: ${address}`)
-
-
-        setCountry(selectedJSON.country);
-        console.log(`country: ${country}`)
-
-        setState(selectedJSON.state);
-        console.log(`state: ${state}`)
-
-
-        setCity(selectedJSON.city);
-        console.log(`city: ${city}`)
-     
-         
-       });
-     
-     
-     
-     
-     
-
-        const element = document.getElementById("selectedAddress");
-        if (element) {
-            element.innerHTML = `Selected Address: (${address})`;
-        }
-
-
-
-
+      // Fetch and handle reverse geocoding data
+    
+      const myAPIKey = "d6b32867b992488091820bcca116a039";
+      const reverseGeocodingUrl = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&format=json&&apiKey=${myAPIKey}`;
+    
+      // call Reverse Geocoding API - https://www.geoapify.com/reverse-geocoding-api/
+      fetch(reverseGeocodingUrl)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((featureCollection) => {
+          console.log("feature collection:")
+          const selectedJSON = featureCollection.results[0];
+    
+          console.log("selectedJSON:")
+          console.log(selectedJSON);
+    
+          setAddress(selectedJSON.formatted);
+          setCountry(selectedJSON['country']);
+          setState(selectedJSON.state);
+          setCounty(selectedJSON.county);
+          setCity(selectedJSON.city);
+    
+          // Update the markerLocation state with the clicked coordinates
+          setMarkerLocation({ lat, lng });
+    
+          // Call the callback function with the data
+          onMapData(userLocation, { lat, lng }, selectedJSON.formatted, selectedJSON.country, selectedJSON.state, selectedJSON.county, selectedJSON.city);
+        });
     };
-
+  
     return (
         <div>
             <h4>See Map2 Below</h4>
@@ -126,12 +113,10 @@ export default function Map() {
                     )}
                 </GoogleMapReact>
 
-            <h6 id = 'selectedAddress'> Click on map to select an address </h6>
-
             </div>
         </div>
     );
 }
 
-
+export default Map;
 
