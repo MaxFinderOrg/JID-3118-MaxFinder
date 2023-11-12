@@ -4,15 +4,14 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
 type SearchBarProps = {
-  onSearch: (searchText: string, searchField: string) => void;
+  onSearch: (searchText: string) => void;
 };
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
-  const [searchText, setSearchText] = useState<string>('');
-  const [searchField, setSearchField] = useState<string>('name'); // Default search field
+  const [searchText, setSearchText] = useState<string>(''); // Initialize with an empty string
 
   const handleSearch = () => {
-    onSearch(searchText, searchField);
+    onSearch(searchText);
   };
 
   return (
@@ -25,12 +24,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
         value={searchText}
         onChange={(e) => setSearchText(e.target.value)}
       />
-      <select value={searchField} onChange={(e) => setSearchField(e.target.value)}>
-        <option value="name">Name</option>
-        <option value="breed">Breed</option>
-        <option value="color">Color</option>
-        {/* Add other searchable fields here */}
-      </select>
       <Button
         variant="contained"
         color="primary"
