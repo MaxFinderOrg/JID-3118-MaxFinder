@@ -51,4 +51,14 @@ const Router1 = () => {
     );
   }
 
+  const Router2 = () => {
+    return (
+      <Routes>
+        <Route path="/signup" element={<SignUp/>} />
+        <Route path="/login" element={<LogIn/>} />
+        <Route path="/forgot-password" element={<ForgotPassword/>} />
+      </Routes>
+      );
+    }
+
 export default Router1;

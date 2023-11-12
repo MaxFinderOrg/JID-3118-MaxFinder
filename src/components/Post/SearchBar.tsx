@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { StringMappingType } from 'typescript';
 
 type SearchBarProps = {
   onSearch: (searchText: string) => void;
 };
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
-  const [searchText, setSearchText] = useState<string>('');
+  const [searchText, setSearchText] = useState<string>(''); // Initialize with an empty string
 
   const handleSearch = () => {
     onSearch(searchText);
