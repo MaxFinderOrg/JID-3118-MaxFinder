@@ -34,8 +34,6 @@ async function getAllPosts() {
   return postsData;
 }
 
-
-
 const Posts = () => {
   
   const [posts, setPosts] = useState([]);
@@ -49,6 +47,12 @@ const Posts = () => {
     
     fetchData();
   }, []);
+  
+  const handleAdopt = (postId) => {
+    // Handle the adoption process here, e.g., navigate to an adoption page
+    const url = '/adopt/' + postId;
+    window.location.assign(url);
+  };
 
   console.log(posts); // Log the raw data to the console
   
@@ -109,19 +113,20 @@ const Posts = () => {
               </Typography>
             </CardContent>
             <CardActions>
+            {post.petStatus === 'Found' && (
+                <Button variant="contained" onClick={() => handleAdopt(post.id)}>
+                  Adopt
+                </Button>
+              )}
               <Button size="small">Share</Button>
               <Button size="small">Learn More</Button>
-
              
-
               <Button onClick={() => {
                   const url = '/edit-post/' + post.id;
                   window.location.assign(url);
                 }}>
                 Edit Post 
               </Button>
-
-
              
             </CardActions>
           </Card>
