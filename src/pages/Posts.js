@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import { dbb } from '../firebase'; // Import the db reference from firebase.js
+import Moment from 'moment';
 
 
 async function getAllPosts() {
@@ -34,8 +35,6 @@ async function getAllPosts() {
   return postsData;
 }
 
-
-
 const Posts = () => {
   
   const [posts, setPosts] = useState([]);
@@ -49,6 +48,12 @@ const Posts = () => {
     
     fetchData();
   }, []);
+  
+  const handleAdopt = (postId) => {
+    // Handle the adoption process here, e.g., navigate to an adoption page
+    const url = '/adopt/' + postId;
+    window.location.assign(url);
+  };
 
   console.log(posts); // Log the raw data to the console
   
@@ -77,10 +82,15 @@ const Posts = () => {
           <Card sx={{ width: 350, mt: 5 }}>
             <CardMedia
               sx={{ height: 140 }}
+
               image={post.imageRef || require("../static/images/dog.jpg")}
+
             />
            
             <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+                  Posted Date: {Moment(post.date).format('d MMM yyyy')}
+              </Typography>
             <Typography gutterBottom variant="h5" component="div">
               Pet Status: {post.petStatus}
               </Typography>
@@ -114,19 +124,20 @@ const Posts = () => {
               
             </CardContent>
             <CardActions>
+            {post.petStatus === 'Found' && (
+                <Button variant="contained" onClick={() => handleAdopt(post.id)}>
+                  Adopt
+                </Button>
+              )}
               <Button size="small">Share</Button>
               <Button size="small">Learn More</Button>
-
              
-
               <Button onClick={() => {
                   const url = '/edit-post/' + post.id;
                   window.location.assign(url);
                 }}>
                 Edit Post 
               </Button>
-
-
              
             </CardActions>
           </Card>

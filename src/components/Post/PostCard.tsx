@@ -16,10 +16,12 @@ import FormLabel from '@mui/material/FormLabel';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import { getDatabase, ref, child, get } from "firebase/database";
+import {getDownloadURL} from "firebase/storage";
 import { ConstructionOutlined } from '@mui/icons-material';
 import Map from './Map2.tsx';
 import 'firebase/compat/storage';
 import {getDownloadURL} from "firebase/storage";
+import 'firebase/compat/storage';
 
 //handler
 const handleClick = (event: React.MouseEvent<HTMLElement>, text: string) => {
@@ -51,6 +53,7 @@ export default function PostCard() {
   const [petStatus, setPetStatus] = useState('');
   const [image, setImage] = useState('');
   const [imageRef, setImageRef] = useState('');
+
 
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number }>({ lat: 0, lng: 0 });
   const [markerLocation, setMarkerLocation] = useState<{ lat: number; lng: number } | null>(null);
@@ -86,6 +89,7 @@ export default function PostCard() {
     setCounty(county);
     setCity(city);
   }
+
   
   const sizes = [
     {
@@ -156,7 +160,6 @@ export default function PostCard() {
   }
 
 
-
   const onImageChange = async (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setImage(URL.createObjectURL(event.target.files[0]));
@@ -210,6 +213,7 @@ export default function PostCard() {
                 <FormControlLabel value="Found" control={<Radio />} label="Found" />
                 <FormControlLabel value="Lost" control={<Radio />} label="Lost" />
               </RadioGroup>
+
             </FormControl>
           </Box>
           
@@ -318,7 +322,10 @@ export default function PostCard() {
                   />)}
 
               </div>
+
             </FormControl> 
+
+
           </Box>
 
           <Map onMapData={handleMapData}/>
