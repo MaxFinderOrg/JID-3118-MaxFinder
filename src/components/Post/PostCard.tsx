@@ -129,6 +129,7 @@ export default function PostCard() {
         petStatus: petStatus,
         latitude: markerLocation?.lat,
         longitude: markerLocation?.lng,
+        address: address,
         country: country,
         state: state,
         county: county,
