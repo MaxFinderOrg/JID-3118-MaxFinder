@@ -20,8 +20,7 @@ import {getDownloadURL} from "firebase/storage";
 import { ConstructionOutlined } from '@mui/icons-material';
 import Map from './Map2.tsx';
 import 'firebase/compat/storage';
-import {getDownloadURL} from "firebase/storage";
-import 'firebase/compat/storage';
+
 
 //handler
 const handleClick = (event: React.MouseEvent<HTMLElement>, text: string) => {
