@@ -15,12 +15,6 @@ type Result = {
   breed: string;
   color: string;
   gender: string;
-  petStatus: string;
-  size: string;
-  tagged: string;
-  microchipped: string;
-  spayed: string;
-  image: string;
 };
 
 type FilterResultsProps = {
@@ -39,16 +33,14 @@ const FilterResults: React.FC<FilterResultsProps> = ({ results }) => {
   const handleClose = () => {
     setOpen(false);
   };
-  /*
-  if (results.length === 0) {
+
+  /*if (results.length === 0) {
     return <div>No results found.</div>;
-  }
-  */
-  
+  }*/
 
   return (
     <div>
-      
+      <h2>Search Results</h2>
       <List>
         {results.map((result) => (
           <ListItem key={result.id} button onClick={() => handleClickOpen(result)}>
@@ -63,36 +55,9 @@ const FilterResults: React.FC<FilterResultsProps> = ({ results }) => {
           {selectedResult && (
             <>
               <DialogContentText>
-                Status: {selectedResult.petStatus}
-              </DialogContentText>
-              <DialogContentText>
                 Name: {selectedResult.name}
+                {/* Add other properties as needed */}
               </DialogContentText>
-              <DialogContentText>
-                Breed: {selectedResult.breed}
-              </DialogContentText>
-              <DialogContentText>
-                Color: {selectedResult.color}
-              </DialogContentText>
-              <DialogContentText>
-                Gender: {selectedResult.gender}
-              </DialogContentText>
-              <DialogContentText>
-                Size: {selectedResult.size}
-              </DialogContentText>
-              <DialogContentText>
-                Tagged: {selectedResult.tagged}
-              </DialogContentText>
-              <DialogContentText>
-                Microchipped: {selectedResult.microchipped}
-              </DialogContentText>
-              <DialogContentText>
-                Spayed: {selectedResult.spayed}
-              </DialogContentText>
-              <DialogContentText>
-                Id: {selectedResult.id}
-              </DialogContentText>
-              
               {/* Add more DialogContentText elements for additional properties */}
             </>
           )}

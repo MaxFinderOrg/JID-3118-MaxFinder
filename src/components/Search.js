@@ -7,10 +7,28 @@ import 'firebase/compat/storage';
 
 import SearchBar from '../SearchBar/SearchBar.tsx'
 import FilterResults from '../SearchBar/FilterResults.tsx';
+import SearchPopup from '../SearchPopup/SearchPopup.tsx';
+
 
 export default function Search() {
 
   const [searchResults, setSearchResults] = useState([]);
+  const [posts, setPosts] = useState([]);
+  const [searchPopupOpen, setSearchPopupOpen] = useState(false);
+
+  useEffect(() => {
+    // Fetch posts data
+    const fetchData = async () => {
+      const db = firebase.firestore();
+      const collectionRef = collection(db, 'post');
+      const q = query(collectionRef);
+      const querySnapshot = await getDocs(q);
+      const postsData = querySnapshot.docs.map(doc => doc.data());
+      setPosts(postsData);
+    };
+
+    fetchData();
+  }, []);
 
   const handleSearch = (searchTerm, searchField) => {
     console.log('Search Term:', searchTerm);
@@ -42,22 +60,36 @@ export default function Search() {
   */
     getDocs(q)
       .then((querySnapshot) => {
-        const results = [];
+        const results = querySnapshot.docs.map(doc => doc.data());
+        /*const results = [];
         querySnapshot.forEach((doc) => {
           results.push(doc.data());
-        });
+        });*/
         console.log('Search Results:', results); 
         setSearchResults(results);
+        setSearchPopupOpen(true); // Open the search pop-up when search results are available
       })
       .catch((error) => {
         console.error("Error getting documents: ", error);
       });
   };
 
+  const handleCloseSearchPopup = () => {
+    setSearchPopupOpen(false);
+  };
+
   return (
     <div>
       <SearchBar handleSearch={handleSearch} />
       <FilterResults results={searchResults} />
+      {searchResults.length > 0 && (
+      <SearchPopup
+        open={searchPopupOpen}
+        onClose={handleCloseSearchPopup}
+        results={searchResults}
+        posts={posts}
+      />
+    )}
     </div>
   );
 

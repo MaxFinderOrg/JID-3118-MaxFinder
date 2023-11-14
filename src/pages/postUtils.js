@@ -12,7 +12,7 @@ import 'firebase/compat/firestore';
 import { dbb } from '../firebase'; // Import the db reference from firebase.js
 
 
-export async function getAllPosts(searchQuery) {
+async function getAllPosts(searchQuery) {
   console.log("get all posts() called");
   
   const postRef = dbb.collection('post');
@@ -23,7 +23,7 @@ export async function getAllPosts(searchQuery) {
     query = query.where('name', '>=', searchQuery).where('name', '<=', searchQuery + '\uf8ff');
   }
 
-  const snapshot = await query.get();
+  const snapshot = await postRef.get();
 
 
   if (snapshot.empty) {
@@ -51,11 +51,10 @@ const Posts = ({ searchQuery }) => {
       console.log("inside useEffect");
       const postsData = await getAllPosts(searchQuery);
       setPosts(postsData);
-      
     };
     
     fetchData();
-  }, [searchQuery]);
+  }, []);
 
   console.log(posts); // Log the raw data to the console
 

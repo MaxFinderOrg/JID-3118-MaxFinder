@@ -149,7 +149,8 @@ export default function PostCard() {
   }
 
   return (
-    <Card sx={{ width: 500 }}>
+    <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+    <Card sx={{ width: 500,  }}>
       <CardHeader
         title={<div style={{ textAlign: 'center'}}>Report Pet</div>}
       />
@@ -287,6 +288,7 @@ export default function PostCard() {
       </CardContent>
 
     </Card>
+    </Box>
     
   );
 }
