@@ -86,6 +86,9 @@ const Posts = () => {
               <Typography gutterBottom variant="h5" component="div">
               Name: {post.name}
               </Typography>
+              <Typography variant="body2" color="text.secondary" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              Location: {post.city}, {post.state} ({post.county}) 
+              </Typography>
               <Typography variant="body2" color="text.secondary">
               Color: {post.color}
               </Typography>
@@ -107,6 +110,7 @@ const Posts = () => {
               <Typography variant="body2" color="text.secondary">
                 Spayed/Neutered: {post.spayed}
               </Typography>
+              
             </CardContent>
             <CardActions>
               <Button size="small">Share</Button>
