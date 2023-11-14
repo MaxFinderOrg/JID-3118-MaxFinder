@@ -19,7 +19,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import { getDatabase, ref, child, get } from "firebase/database";
 import Map from './Map2.tsx';
-
+import CardMedia from '@mui/material/CardMedia';
 
 
 
@@ -41,6 +41,8 @@ export default function EditCard() {
     const [microchipped, setMicrochipped] = useState('');
     const [spayed, setSpayed] = useState('');
     const [petStatus, setPetStatus] = useState('');
+    const [image, setImage] = useState('');
+    const [imageRef, setImageRef] = useState('');
 
     const [userLocation, setUserLocation] = useState<{ lat: number; lng: number }>({ lat: 0, lng: 0 });
     const [markerLocation, setMarkerLocation] = useState<{ lat: number; lng: number } | null>(null);
@@ -84,6 +86,7 @@ export default function EditCard() {
                     setState(data.state);
                     setCounty(data.county);
                     setCity(data.city);
+                    setImageRef(data.imageRef);
                   }
 
                   
@@ -240,9 +243,26 @@ export default function EditCard() {
             alignItems: 'flex-start',
             flexDirection: 'column',
             bgcolor: 'background.paper',
-            borderRadius: 1,
+            borderRadius: 1
           }}
         >
+
+        <CardMedia
+           sx={{ 
+            height: 240,
+            paddingBottom: 5, // Adjust the value for the desired padding
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        
+        >
+          <img src={imageRef || require("../../static/images/dog.jpg")} alt="Pet" style={{ height: '100%' , width: '100%' }} />
+        </CardMedia>
+       
+
+        <TextField label="uploaded link to photo: " disabled value= {imageRef}  />
+
         <TextField label="Auto-generated PostID" disabled value= {transferredID}  />
           
         <Box sx={{ ml: 1, mt: 2 }}>

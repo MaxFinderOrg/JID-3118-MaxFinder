@@ -77,8 +77,9 @@ const Posts = () => {
           <Card sx={{ width: 350, mt: 5 }}>
             <CardMedia
               sx={{ height: 140 }}
-              image={require("../static/images/dog.jpg")}
+              image={post.imageRef || require("../static/images/dog.jpg")}
             />
+           
             <CardContent>
             <Typography gutterBottom variant="h5" component="div">
               Pet Status: {post.petStatus}
