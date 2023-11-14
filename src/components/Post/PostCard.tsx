@@ -18,6 +18,9 @@ import 'firebase/compat/firestore';
 import { getDatabase, ref, child, get } from "firebase/database";
 import {getDownloadURL} from "firebase/storage";
 import { ConstructionOutlined } from '@mui/icons-material';
+import Map from './Map2.tsx';
+import 'firebase/compat/storage';
+import {getDownloadURL} from "firebase/storage";
 import 'firebase/compat/storage';
 
 //handler
@@ -38,11 +41,6 @@ const handleClick = (event: React.MouseEvent<HTMLElement>, text: string) => {
     */
 };
 
-
-
-
-
-
 export default function PostCard() {
   const [name, setName] = useState('');
   const [breed, setBreed] = useState('');
@@ -55,6 +53,43 @@ export default function PostCard() {
   const [petStatus, setPetStatus] = useState('');
   const [image, setImage] = useState('');
   const [imageRef, setImageRef] = useState('');
+
+
+  const [userLocation, setUserLocation] = useState<{ lat: number; lng: number }>({ lat: 0, lng: 0 });
+  const [markerLocation, setMarkerLocation] = useState<{ lat: number; lng: number } | null>(null);
+  const [address, setAddress] = useState('');
+  const [country, setCountry] = useState('');
+  const [state, setState] = useState('');
+  const [county, setCounty] = useState('');
+  const [city, setCity] = useState('');
+
+  const handleMapData = (
+    userLocation: { lat: number; lng: number },
+    markerLocation: { lat: number; lng: number },
+    address: string,
+    country: string,
+    state: string,
+    county: string,
+    city: string
+  ) => {
+    console.log("Received data from Map2.tsx:", {
+      userLocation,
+      markerLocation,
+      address,
+      country,
+      state,
+      county,
+      city,
+    });
+    setUserLocation(userLocation);
+    setMarkerLocation(markerLocation);
+    setAddress(address);
+    setCountry(country);
+    setState(state);
+    setCounty(county);
+    setCity(city);
+  }
+
   
   const sizes = [
     {
@@ -83,8 +118,6 @@ export default function PostCard() {
     }
   ];
 
-
-
   const handleSubmit = async () => {
     console.log("submit post pressed");
 
@@ -102,6 +135,13 @@ export default function PostCard() {
         microchipped: microchipped,
         spayed: spayed,
         petStatus: petStatus,
+        latitude: markerLocation?.lat,
+        longitude: markerLocation?.lng,
+        address: address,
+        country: country,
+        state: state,
+        county: county,
+        city: city,
         imageRef: imageRef,
         date: Date.now()
       });
@@ -118,6 +158,7 @@ export default function PostCard() {
     console.log("submit pressed complete");
     window.location.href = '/posts'; // Redirect to the posts page after deletion
   }
+
 
   const onImageChange = async (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -281,9 +322,15 @@ export default function PostCard() {
                   />)}
 
               </div>
-            </FormControl>
+
+            </FormControl> 
+
+
           </Box>
 
+          <Map onMapData={handleMapData}/>
+          <h6>{address ? `Selected location: ${address}` : `Click to select location`}</h6>
+          
           <Stack spacing={2} direction="row" mt={3} sx={{ ml: 1 }}>
             <Button variant="contained" onClick={handleSubmit}>Submit</Button>
             <Button variant="outlined" href='/posts'>Cancel</Button>

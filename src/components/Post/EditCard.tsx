@@ -18,7 +18,8 @@ import FormLabel from '@mui/material/FormLabel';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import { getDatabase, ref, child, get } from "firebase/database";
-
+import Map from './Map2.tsx';
+import CardMedia from '@mui/material/CardMedia';
 
 
 
@@ -40,6 +41,16 @@ export default function EditCard() {
     const [microchipped, setMicrochipped] = useState('');
     const [spayed, setSpayed] = useState('');
     const [petStatus, setPetStatus] = useState('');
+    const [image, setImage] = useState('');
+    const [imageRef, setImageRef] = useState('');
+
+    const [userLocation, setUserLocation] = useState<{ lat: number; lng: number }>({ lat: 0, lng: 0 });
+    const [markerLocation, setMarkerLocation] = useState<{ lat: number; lng: number } | null>(null);
+    const [address, setAddress] = useState('');
+    const [country, setCountry] = useState('');
+    const [state, setState] = useState('');
+    const [county, setCounty] = useState('');
+    const [city, setCity] = useState('');
     
 
     
@@ -68,6 +79,14 @@ export default function EditCard() {
                     setMicrochipped(data.microchipped);
                     setSpayed(data.spayed );
                     setPetStatus(data.petStatus)
+                    setUserLocation(data.userLocation);
+                    setMarkerLocation(data.markerLocation);
+                    setAddress(data.address);
+                    setCountry(data.country);
+                    setState(data.state);
+                    setCounty(data.county);
+                    setCity(data.city);
+                    setImageRef(data.imageRef);
                   }
 
                   
@@ -81,6 +100,32 @@ export default function EditCard() {
       fetchData();
   }, []);
 
+    const handleMapData = (
+      userLocation: { lat: number; lng: number },
+      markerLocation: { lat: number; lng: number },
+      address: string,
+      country: string,
+      state: string,
+      county: string,
+      city: string
+    ) => {
+      console.log("Received data from Map2.tsx:", {
+        userLocation,
+        markerLocation,
+        address,
+        country,
+        state,
+        county,
+        city,
+      });
+      setUserLocation(userLocation);
+      setMarkerLocation(markerLocation);
+      setAddress(address);
+      setCountry(country);
+      setState(state);
+      setCounty(county);
+      setCity(city);
+    }
 
 
     const sizes = [
@@ -137,6 +182,13 @@ export default function EditCard() {
         microchipped: microchipped,
         spayed: spayed,
         petStatus: petStatus,
+        latitude: markerLocation?.lat,
+        longitude: markerLocation?.lng,
+        address: address,
+        country: country,
+        state: state,
+        county: county,
+        city: city,
     })
     .then(() => {
         console.log("Document successfully updated");
@@ -191,9 +243,26 @@ export default function EditCard() {
             alignItems: 'flex-start',
             flexDirection: 'column',
             bgcolor: 'background.paper',
-            borderRadius: 1,
+            borderRadius: 1
           }}
         >
+
+        <CardMedia
+           sx={{ 
+            height: 240,
+            paddingBottom: 5, // Adjust the value for the desired padding
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        
+        >
+          <img src={imageRef || require("../../static/images/dog.jpg")} alt="Pet" style={{ height: '100%' , width: '100%' }} />
+        </CardMedia>
+       
+
+        <TextField label="uploaded link to photo: " disabled value= {imageRef}  />
+
         <TextField label="Auto-generated PostID" disabled value= {transferredID}  />
           
         <Box sx={{ ml: 1, mt: 2 }}>
@@ -306,6 +375,9 @@ export default function EditCard() {
               </RadioGroup>
             </FormControl>
           </Box>
+
+          <Map onMapData={handleMapData}/>
+          <h6>{address ? `Selected location: ${address}` : `Click to select location`}</h6>
 
           <Stack spacing={2} direction="row" mt={3} sx={{ ml: 1 }}>
             <Button variant="contained" onClick={handleSubmit}>Submit</Button>

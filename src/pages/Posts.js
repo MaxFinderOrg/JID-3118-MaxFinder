@@ -82,8 +82,11 @@ const Posts = () => {
           <Card sx={{ width: 350, mt: 5 }}>
             <CardMedia
               sx={{ height: 140 }}
-              image={post.imageRef}
+
+              image={post.imageRef || require("../static/images/dog.jpg")}
+
             />
+           
             <CardContent>
             <Typography gutterBottom variant="h5" component="div">
                   Posted Date: {Moment(post.date).format('d MMM yyyy')}
@@ -93,6 +96,9 @@ const Posts = () => {
               </Typography>
               <Typography gutterBottom variant="h5" component="div">
               Name: {post.name}
+              </Typography>
+              <Typography variant="body2" color="text.secondary" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              Location: {post.city}, {post.state} ({post.county}) 
               </Typography>
               <Typography variant="body2" color="text.secondary">
               Color: {post.color}
@@ -115,6 +121,7 @@ const Posts = () => {
               <Typography variant="body2" color="text.secondary">
                 Spayed/Neutered: {post.spayed}
               </Typography>
+              
             </CardContent>
             <CardActions>
             {post.petStatus === 'Found' && (
