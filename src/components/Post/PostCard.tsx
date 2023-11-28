@@ -2,10 +2,7 @@ import React, { ChangeEvent, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
-import Avatar from '@mui/material/Avatar';
-import { red } from '@mui/material/colors';
 import { FormControl, TextField } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -13,12 +10,11 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
+import {getDownloadURL} from "firebase/storage";
+import Map from './Map2.tsx';
+import { MuiTelInput } from 'mui-tel-input'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
-import { getDatabase, ref, child, get } from "firebase/database";
-import {getDownloadURL} from "firebase/storage";
-import { ConstructionOutlined } from '@mui/icons-material';
-import Map from './Map2.tsx';
 import 'firebase/compat/storage';
 
 
@@ -52,7 +48,7 @@ export default function PostCard() {
   const [petStatus, setPetStatus] = useState('');
   const [image, setImage] = useState('');
   const [imageRef, setImageRef] = useState('');
-
+  const [contactNumber, setContactNumber] = useState('');
 
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number }>({ lat: 0, lng: 0 });
   const [markerLocation, setMarkerLocation] = useState<{ lat: number; lng: number } | null>(null);
@@ -89,7 +85,6 @@ export default function PostCard() {
     setCity(city);
   }
 
-  
   const sizes = [
     {
       value: '',
@@ -117,7 +112,12 @@ export default function PostCard() {
     }
   ];
 
+  const handleContactChange = (newContact: any) => {
+    setContactNumber(newContact)
+  }
+
   const handleSubmit = async () => {
+    console.log("Phone number: " + contactNumber)
     console.log("submit post pressed");
 
     const saveToFirebase = firebase.firestore();
@@ -158,7 +158,6 @@ export default function PostCard() {
     window.location.href = '/posts'; // Redirect to the posts page after deletion
   }
 
-
   const onImageChange = async (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setImage(URL.createObjectURL(event.target.files[0]));
@@ -173,13 +172,10 @@ export default function PostCard() {
       var uploadingElement = await storageRef.put(event.target.files[0]);
       const downloadURL = await getDownloadURL(storageRef);
       setImageRef(downloadURL);
-     // uploadingElement.snapshot.ref.getDownloadURL().then(
-       // function (imageURL) {
-         
-      
+      // uploadingElement.snapshot.ref.getDownloadURL().then(
+        // function (imageURL) {
     }
-   }
-
+  }
 
   return (
     <Card sx={{ width: 500 }}>
@@ -319,16 +315,20 @@ export default function PostCard() {
                     alt="The photo of the pet"
                     src={image}
                   />)}
-
               </div>
 
             </FormControl> 
 
+            <Map onMapData={handleMapData}/>
 
+            <FormLabel id="contact-label">Your Phone Number</FormLabel>
+            <MuiTelInput
+              fullWidth
+              value={contactNumber}
+              defaultCountry="US"
+              onChange={handleContactChange}
+            />
           </Box>
-
-          <Map onMapData={handleMapData}/>
-          <h6>{address ? `Selected location: ${address}` : `Click to select location`}</h6>
           
           <Stack spacing={2} direction="row" mt={3} sx={{ ml: 1 }}>
             <Button variant="contained" onClick={handleSubmit}>Submit</Button>

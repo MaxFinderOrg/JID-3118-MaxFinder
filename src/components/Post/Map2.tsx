@@ -97,7 +97,6 @@ const Map = ({ onMapData }: MapProps) => {
   
     return (
         <div>
-            <h4>See Map2 Below</h4>
             <div style={mapStyles}>
                 <GoogleMapReact
                     bootstrapURLKeys={{
@@ -112,6 +111,7 @@ const Map = ({ onMapData }: MapProps) => {
                         <Marker lat={markerLocation.lat} lng={markerLocation.lng} />
                     )}
                 </GoogleMapReact>
+                <h6>{address ? `Selected location: ${address}` : `Click to select location`}</h6>
 
             </div>
         </div>
