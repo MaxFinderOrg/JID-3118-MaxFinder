@@ -48,7 +48,7 @@ export default function PostCard() {
   const [petStatus, setPetStatus] = useState('');
   const [image, setImage] = useState('');
   const [imageRef, setImageRef] = useState('');
-  const [contactNumber, setContactNumber] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
 
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number }>({ lat: 0, lng: 0 });
   const [markerLocation, setMarkerLocation] = useState<{ lat: number; lng: number } | null>(null);
@@ -112,12 +112,11 @@ export default function PostCard() {
     }
   ];
 
-  const handleContactChange = (newContact: any) => {
-    setContactNumber(newContact)
+  const handlePhoneChange = (newPhone: any) => {
+    setPhoneNumber(newPhone)
   }
 
   const handleSubmit = async () => {
-    console.log("Phone number: " + contactNumber)
     console.log("submit post pressed");
 
     const saveToFirebase = firebase.firestore();
@@ -142,7 +141,8 @@ export default function PostCard() {
         county: county,
         city: city,
         imageRef: imageRef,
-        date: Date.now()
+        date: Date.now(),
+        phoneNumber: phoneNumber
       });
 
       // Retrieve the auto-generated document ID
@@ -324,9 +324,9 @@ export default function PostCard() {
             <FormLabel id="contact-label">Your Phone Number</FormLabel>
             <MuiTelInput
               fullWidth
-              value={contactNumber}
+              value={phoneNumber}
               defaultCountry="US"
-              onChange={handleContactChange}
+              onChange={handlePhoneChange}
             />
           </Box>
           
