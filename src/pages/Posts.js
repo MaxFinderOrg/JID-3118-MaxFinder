@@ -42,7 +42,7 @@ export async function getAllPosts(searchQuery) {
   return postsData;
 }
 
-const Posts = ({ searchQuery }) => {
+const Posts = ({ searchQuery, filteredResults }) => {
   
   const [posts, setPosts] = useState([]);
 
@@ -59,15 +59,14 @@ const Posts = ({ searchQuery }) => {
 
   console.log(posts); // Log the raw data to the console
 
-  const filteredPosts = posts;
+  //const filteredPosts = posts;
+
+  const postsToDisplay = searchQuery.trim() !== '' ? filteredResults : posts;
 
   return (
     <div>
-      <div style={{ marginTop: '2em', display: 'flex', justifyContent: 'center'  }}>
-        <Button variant="contained" href='/create-post' sx={{ width: 350 }}>Create Post</Button>
-      </div>
-      
-      {filteredPosts.map(post => (
+      {postsToDisplay && postsToDisplay.length > 0 ? (
+      postsToDisplay.map(post => (
         <Box
         sx={{
           display: 'flex',
@@ -133,7 +132,11 @@ const Posts = ({ searchQuery }) => {
             </CardActions>
           </Card>
       </Box>
-      ))}
+      ))
+
+      ) : (
+        <p>No posts found.</p>
+      )}
       
     </div>
   );
