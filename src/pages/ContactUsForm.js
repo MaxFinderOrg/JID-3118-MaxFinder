@@ -37,6 +37,7 @@ const ContactUsForm = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          fullWidth // Make the email field full-width
         />
       </div>
       <div style={{ marginBottom: '16px' }}>
@@ -47,6 +48,7 @@ const ContactUsForm = () => {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           required
+          fullWidth // Make the message field full-width
         />
       </div>
       <div>
