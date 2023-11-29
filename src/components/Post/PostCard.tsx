@@ -59,7 +59,6 @@ export default function PostCard() {
   const [image, setImage] = useState('');
   const [imageRef, setImageRef] = useState('');
 
-
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number }>({ lat: 0, lng: 0 });
   const [markerLocation, setMarkerLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [address, setAddress] = useState('');
@@ -70,6 +69,7 @@ export default function PostCard() {
 
   var moment = require('moment');
   var currentTime = moment().format('YYYY-MM-DDTHH:mm');
+  const [petDateTime, setPetDateTime] = React.useState<Dayjs | null>(dayjs(currentTime));
 
   const handleMapData = (
     userLocation: { lat: number; lng: number },
@@ -151,7 +151,8 @@ export default function PostCard() {
         county: county,
         city: city,
         imageRef: imageRef,
-        date: Date.now()
+        date: Date.now(),
+        petDateTime: petDateTime
       });
 
       // Retrieve the auto-generated document ID
@@ -228,7 +229,11 @@ export default function PostCard() {
           <FormControl>
               <FormLabel id="petDateTime-label" sx={{ ml: 1}}>Lost/Found: Date & Time</FormLabel>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DateTimePicker label="Click to modify" defaultValue={dayjs(currentTime)} />
+                <DateTimePicker
+                  label="Click to modify"
+                  defaultValue={petDateTime}
+                  onChange={(newValue) => setPetDateTime(newValue)}
+                />
               </LocalizationProvider>
             </FormControl>
           </Box>
