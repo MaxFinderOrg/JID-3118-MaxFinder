@@ -19,6 +19,12 @@ import { getDatabase, ref, child, get } from "firebase/database";
 import {getDownloadURL} from "firebase/storage";
 import { ConstructionOutlined } from '@mui/icons-material';
 import Map from './Map2.tsx';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import Moment from 'moment';
+import dayjs, { Dayjs } from 'dayjs';
 import 'firebase/compat/storage';
 
 
@@ -61,6 +67,9 @@ export default function PostCard() {
   const [state, setState] = useState('');
   const [county, setCounty] = useState('');
   const [city, setCity] = useState('');
+
+  var moment = require('moment');
+  var currentTime = moment().format('YYYY-MM-DDTHH:mm');
 
   const handleMapData = (
     userLocation: { lat: number; lng: number },
@@ -200,7 +209,7 @@ export default function PostCard() {
           }}
         >
         <div>
-          <h6>If you found a pet that was lost, report pet as Found. If you lost your pet, report pet as Lost.</h6>
+          <h6>If you lost your pet, report pet as Lost. If you found a pet that was lost, report pet as Found.</h6>
         </div>
           <Box sx={{ ml: 1, mt: 2 }}>
             <FormControl>
@@ -209,120 +218,130 @@ export default function PostCard() {
                 row
                 onChange={(e) => setPetStatus(e.target.value)}
               >
-                <FormControlLabel value="Found" control={<Radio />} label="Found" />
                 <FormControlLabel value="Lost" control={<Radio />} label="Lost" />
+                <FormControlLabel value="Found" control={<Radio />} label="Found" />
               </RadioGroup>
+            </FormControl>
+          </Box>
 
+          <Box sx={{ mb: 2 }}>
+          <FormControl>
+              <FormLabel id="petDateTime-label" sx={{ ml: 1}}>Lost/Found: Date & Time</FormLabel>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DateTimePicker label="Click to modify" defaultValue={dayjs(currentTime)} />
+              </LocalizationProvider>
             </FormControl>
           </Box>
           
-          <TextField
-            required
-            fullWidth
-            id="outlined-required"
-            label="Name"
-            onChange={(e) => {
-              setName(e.target.value)
-            }}
-          />
+          <Box>
+          <FormLabel sx={{ ml: 1}}>Pet Information</FormLabel>
+            <TextField
+              required
+              fullWidth
+              id="outlined-required"
+              label="Name"
+              onChange={(e) => {
+                setName(e.target.value)
+              }}
+            />
 
-          <TextField
-            required
-            fullWidth
-            id="outlined-required"
-            label="Breed"
-            onChange={(e) => {
-              setBreed(e.target.value)
-            }}
-          />
+            <TextField
+              required
+              fullWidth
+              id="outlined-required"
+              label="Breed"
+              onChange={(e) => {
+                setBreed(e.target.value)
+              }}
+            />
 
-          <TextField
-            required
-            fullWidth
-            id="outlined-required"
-            label="Color"
-            onChange={(e) => {
-              setColor(e.target.value)
-            }}
-          />
+            <TextField
+              required
+              fullWidth
+              id="outlined-required"
+              label="Color"
+              onChange={(e) => {
+                setColor(e.target.value)
+              }}
+            />
 
-          <TextField
-            id="size"
-            label="Size"
-            fullWidth
-            required
-            select
-            SelectProps={{
-              native: true,
-            }}
-            defaultValue={''}
-            onChange={(e) => {
-              setSize(e.target.value)
-            }}
-          >
-            {sizes.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </TextField>
+            <TextField
+              id="size"
+              label="Size"
+              fullWidth
+              required
+              select
+              SelectProps={{
+                native: true,
+              }}
+              defaultValue={''}
+              onChange={(e) => {
+                setSize(e.target.value)
+              }}
+            >
+              {sizes.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </TextField>
 
-          <Box sx={{ ml: 1, mt: 2 }}>
-            <FormControl>
-              <FormLabel id="gender-label">Gender</FormLabel>
-              <RadioGroup
-                row
-                onChange={(e) => setGender(e.target.value)}
-              >
-                <FormControlLabel value="Female" control={<Radio />} label="Female" />
-                <FormControlLabel value="Male" control={<Radio />} label="Male" />
-              </RadioGroup>
+            <Box sx={{ ml: 1, mt: 2 }}>
+              <FormControl>
+                <FormLabel id="gender-label">Gender</FormLabel>
+                <RadioGroup
+                  row
+                  onChange={(e) => setGender(e.target.value)}
+                >
+                  <FormControlLabel value="Female" control={<Radio />} label="Female" />
+                  <FormControlLabel value="Male" control={<Radio />} label="Male" />
+                </RadioGroup>
 
-              <FormLabel id="tagged-label">Tagged</FormLabel>
-              <RadioGroup
-                row
-                onChange={(e) => setTagged(e.target.value)}
-              >
-                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-                <FormControlLabel value="No" control={<Radio />} label="No" />
-              </RadioGroup>
+                <FormLabel id="tagged-label">Tagged</FormLabel>
+                <RadioGroup
+                  row
+                  onChange={(e) => setTagged(e.target.value)}
+                >
+                  <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                  <FormControlLabel value="No" control={<Radio />} label="No" />
+                </RadioGroup>
 
-              <FormLabel id="microchipped-label">Microchipped</FormLabel>
-              <RadioGroup
-                row
-                onChange={(e) => setMicrochipped(e.target.value)}
-              >
-                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-                <FormControlLabel value="No" control={<Radio />} label="No" />
-              </RadioGroup>
+                <FormLabel id="microchipped-label">Microchipped</FormLabel>
+                <RadioGroup
+                  row
+                  onChange={(e) => setMicrochipped(e.target.value)}
+                >
+                  <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                  <FormControlLabel value="No" control={<Radio />} label="No" />
+                </RadioGroup>
 
-              <FormLabel id="spayed-label">Spayed/Neutered</FormLabel>
-              <RadioGroup
-                row
-                onChange={(e) => setSpayed(e.target.value)}
-              >
-                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-                <FormControlLabel value="No" control={<Radio />} label="No" />
-              </RadioGroup>
-              <FormLabel id="spayed-label">Upload a picture of your pet</FormLabel>
-              <div style={{marginTop: 4}}>
-                  <input type="file" onChange={onImageChange} className="filetype" />
-                  {image && (<Box
-                    component="img"
-                    sx={{
-                      height: 233,
-                      width: 350,
-                      marginTop: 2,
-                      maxHeight: { xs: 233, md: 167 },
-                      maxWidth: { xs: 350, md: 250 },
-                    }}
-                    alt="The photo of the pet"
-                    src={image}
-                  />)}
+                <FormLabel id="spayed-label">Spayed/Neutered</FormLabel>
+                <RadioGroup
+                  row
+                  onChange={(e) => setSpayed(e.target.value)}
+                >
+                  <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                  <FormControlLabel value="No" control={<Radio />} label="No" />
+                </RadioGroup>
 
-              </div>
-
-            </FormControl> 
+                <FormLabel id="spayed-label">Upload a picture of your pet</FormLabel>
+                <div style={{marginTop: 4}}>
+                    <input type="file" onChange={onImageChange} className="filetype" />
+                    {image && (<Box
+                      component="img"
+                      sx={{
+                        height: 233,
+                        width: 350,
+                        marginTop: 2,
+                        maxHeight: { xs: 233, md: 167 },
+                        maxWidth: { xs: 350, md: 250 },
+                      }}
+                      alt="The photo of the pet"
+                      src={image}
+                    />)}
+                </div>
+              </FormControl> 
+            </Box>
 
 
           </Box>
