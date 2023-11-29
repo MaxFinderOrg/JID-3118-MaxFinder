@@ -131,6 +131,7 @@ export default function PostCard() {
 
     const saveToFirebase = firebase.firestore();
     const collectionRef = saveToFirebase.collection("post");
+    const petDateTimeString = petDateTime ? petDateTime.format('YYYY MMMM DD h:mm A') : Date.now()
 
     try {
       const newDocumentRef = await collectionRef.add({
@@ -152,7 +153,7 @@ export default function PostCard() {
         city: city,
         imageRef: imageRef,
         date: Date.now(),
-        petDateTime: petDateTime
+        petDateTime: petDateTimeString
       });
 
       // Retrieve the auto-generated document ID
