@@ -89,7 +89,7 @@ const Posts = () => {
            
             <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-                  Posted Date: {Moment(post.date).format('d MMM yyyy')}
+                  Posted Date: {Moment(post.date).format('MMMM Do YYYY')}
               </Typography>
             <Typography gutterBottom variant="h5" component="div">
               Pet Status: {post.petStatus}
