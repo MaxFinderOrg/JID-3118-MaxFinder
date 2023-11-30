@@ -20,6 +20,7 @@ import {getDownloadURL} from "firebase/storage";
 import { ConstructionOutlined, SentimentSatisfiedAlt } from '@mui/icons-material';
 import Map from './Map2';
 import 'firebase/compat/storage';
+import { useAuth } from '../../contexts/AuthContext';
 
 
 //handler
@@ -41,6 +42,7 @@ const handleClick = (event: React.MouseEvent<HTMLElement>, text: string) => {
 };
 
 export default function PostCard() {
+  const { currentUser } = useAuth();
   const [name, setName] = useState('');
   const [breed, setBreed] = useState('');
   const [color, setColor] = useState('');
@@ -126,6 +128,27 @@ export default function PostCard() {
   const handleSubmit = async () => {
     console.log("submit post pressed");
 
+    // Define an array to store the names of missing fields
+    const missingFields = [];
+
+    // Check each required field
+    if (!petStatus) missingFields.push('Pet Status');
+    if (!name) missingFields.push('Name');
+    if (!breed) missingFields.push('Breed');
+    if (!color) missingFields.push('Color');
+    if (!size) missingFields.push('Size');
+    if (!gender) missingFields.push('Gender');
+    if (!tagged) missingFields.push('Tagged');
+    if (!microchipped) missingFields.push('Microchipped');
+    if (!spayed) missingFields.push('Spayed/Neutered');
+
+    // Check if there are any missing fields
+    if (missingFields.length > 0) {
+      // Display an error message with the names of missing fields
+      alert(`Please fill in the following fields before submitting: ${missingFields.join(', ')}`);
+      return;
+    }
+
     const saveToFirebase = firebase.firestore();
     const collectionRef = saveToFirebase.collection("post");
 
@@ -148,6 +171,7 @@ export default function PostCard() {
         county: county,
         city: city,
         imageRef: imageRef,
+        userID: currentUser.email,
         date: Date.now()
       });
 
