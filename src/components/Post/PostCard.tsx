@@ -17,8 +17,8 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import { getDatabase, ref, child, get } from "firebase/database";
 import {getDownloadURL} from "firebase/storage";
-import { ConstructionOutlined } from '@mui/icons-material';
-import Map from './Map2.tsx';
+import { ConstructionOutlined, SentimentSatisfiedAlt } from '@mui/icons-material';
+import Map from './Map2';
 import 'firebase/compat/storage';
 
 
@@ -61,7 +61,11 @@ export default function PostCard() {
   const [state, setState] = useState('');
   const [county, setCounty] = useState('');
   const [city, setCity] = useState('');
+  const [enteredLocation, setEnteredLocation] = useState<{ lat: number; lng: number } | null>(null); 
 
+  const [addressError, setAddressError] = useState(false);
+  const [manualEntry, setManualEntry] = useState('');
+    
   const handleMapData = (
     userLocation: { lat: number; lng: number },
     markerLocation: { lat: number; lng: number },
@@ -87,6 +91,8 @@ export default function PostCard() {
     setState(state);
     setCounty(county);
     setCity(city);
+    setEnteredLocation (null);
+    setManualEntry('');
   }
 
   
@@ -134,8 +140,8 @@ export default function PostCard() {
         microchipped: microchipped,
         spayed: spayed,
         petStatus: petStatus,
-        latitude: markerLocation?.lat,
-        longitude: markerLocation?.lng,
+        latitude: markerLocation ? markerLocation.lat : enteredLocation?.lat,
+        longitude: markerLocation ? markerLocation.lng : enteredLocation?.lng,
         address: address,
         country: country,
         state: state,
@@ -178,7 +184,40 @@ export default function PostCard() {
          
       
     }
-   }
+  }
+
+  const handleAddress = ({ address }: { address: string}) => {
+    // Fetch and handle reverse geocoding data
+  
+    const myAPIKey = "d6b32867b992488091820bcca116a039";
+    let searchGeocodingUrl = "https://api.geoapify.com/v1/geocode/search?text=" + address + "&format=json";
+    searchGeocodingUrl += `&&apiKey=${myAPIKey}`;
+  
+    // call search Geocoding API - 
+    fetch(searchGeocodingUrl)
+      .then((response) => {
+        if (!response.ok) {
+          setAddressError(true);
+        }
+        return response.json();
+      })
+      .then((result) => {
+        if (result.results.length > 0) {
+          const lat = result.results[0].lat;
+          const lng = result.results[0].lon;
+          console.log(lat, lng);
+          setAddressError (false);
+          setEnteredLocation ({lat, lng});
+          setAddress(result.results[0].formatted);
+          setCountry(result.results[0]['country']);
+          setState(result.results[0].state);
+          setCounty(result.results[0].county);
+          setCity(result.results[0].city);
+        } else {
+          setAddressError(true);
+        }
+      });
+    };
 
 
   return (
@@ -321,14 +360,28 @@ export default function PostCard() {
                   />)}
 
               </div>
-
+              <p style={{marginTop: "-6px"}}></p>
+              <FormLabel id="address-label">Enter Address</FormLabel>
+              <TextField
+                required
+                fullWidth
+                id="address"
+                value={manualEntry}
+                label="Address"
+                onChange={(e) => {
+                    setManualEntry (e.target.value);
+                    handleAddress({address: e.target.value});
+                }}
+              />
+              {addressError && (<h6 style={{color: "red"}}>Address not found</h6>)}
             </FormControl> 
 
 
           </Box>
 
-          <Map onMapData={handleMapData}/>
-          <h6>{address ? `Selected location: ${address}` : `Click to select location`}</h6>
+          <Map onMapData={handleMapData} initial={enteredLocation}/>
+          <p style={{marginTop:"-60px"}}></p>
+          <h6>{address ? `Selected location: ${address}` : ``}</h6>
           
           <Stack spacing={2} direction="row" mt={3} sx={{ ml: 1 }}>
             <Button variant="contained" onClick={handleSubmit}>Submit</Button>
