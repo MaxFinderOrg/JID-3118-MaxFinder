@@ -344,7 +344,7 @@ export default function PostCard() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               <FormLabel id="spayed-label">Upload a picture of your pet</FormLabel>
-              <div style={{marginTop: 4}}>
+              <div style={{marginTop: "10px"}}>
                   <input type="file" onChange={onImageChange} className="filetype" />
                   {image && (<Box
                     component="img"
@@ -360,7 +360,7 @@ export default function PostCard() {
                   />)}
 
               </div>
-              <p style={{marginTop: "-6px"}}></p>
+              <p style={{marginTop: "-4px"}}></p>
               <FormLabel id="address-label">Enter Address</FormLabel>
               <TextField
                 required
