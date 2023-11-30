@@ -20,6 +20,7 @@ import {getDownloadURL} from "firebase/storage";
 import { ConstructionOutlined } from '@mui/icons-material';
 import Map from './Map2.tsx';
 import 'firebase/compat/storage';
+import { useAuth } from '../../contexts/AuthContext';
 
 
 //handler
@@ -41,6 +42,7 @@ const handleClick = (event: React.MouseEvent<HTMLElement>, text: string) => {
 };
 
 export default function PostCard() {
+  const { currentUser } = useAuth();
   const [name, setName] = useState('');
   const [breed, setBreed] = useState('');
   const [color, setColor] = useState('');
@@ -163,6 +165,7 @@ export default function PostCard() {
         county: county,
         city: city,
         imageRef: imageRef,
+        userID: currentUser.email,
         date: Date.now()
       });
 
