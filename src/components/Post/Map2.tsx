@@ -14,6 +14,7 @@ interface MapProps {
     county: string,
     city: string
   ) => void;
+  initial: { lat: number; lng: number } | null;
 }
 
 const Marker = ({ lat, lng } : { lat: number, lng: number }) => (
@@ -29,7 +30,7 @@ const Marker = ({ lat, lng } : { lat: number, lng: number }) => (
   );
 
 
-const Map = ({ onMapData }: MapProps) => {
+const Map = ({ onMapData, initial }: MapProps) => {
     const mapStyles = {
         height: "400px",
         width: "400px",
@@ -38,7 +39,7 @@ const Map = ({ onMapData }: MapProps) => {
        
     };
 
-    const initialUserLocation = { lat: 0, lng: 0 };
+    const initialUserLocation = initial ? initial : { lat: 0, lng: 0 };
     const [userLocation, setUserLocation] = useState<{ lat: number; lng: number }>(initialUserLocation);
     const [markerLocation, setMarkerLocation] = useState<{ lat: number; lng: number } | null>(null);
 
@@ -50,14 +51,22 @@ const Map = ({ onMapData }: MapProps) => {
    
 
 
+    useEffect(() => {
+      if (initial) {
+        setUserLocation(initial);
+      }
+    }, [initial]);
 
     useEffect(() => {
-        if ("geolocation" in navigator) {
+      if (initial) {
+        setUserLocation(initial);
+      } else if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition((position) => {
                 const { latitude, longitude } = position.coords;
                 setUserLocation({ lat: latitude, lng: longitude });
             });
         }
+        
     }, []);
 
     const handleMapClick = ({ lat, lng, event }: { lat: number, lng: number, event: any }) => {
@@ -97,7 +106,8 @@ const Map = ({ onMapData }: MapProps) => {
   
     return (
         <div>
-            <h4>See Map2 Below</h4>
+            <p style={{color: "rgba(0,0,0,.6", marginTop: "8px", marginLeft: "8px", 
+            marginBottom: "-6px"}}>OR Select map location below</p>
             <div style={mapStyles}>
                 <GoogleMapReact
                     bootstrapURLKeys={{
@@ -112,6 +122,7 @@ const Map = ({ onMapData }: MapProps) => {
                         <Marker lat={markerLocation.lat} lng={markerLocation.lng} />
                     )}
                 </GoogleMapReact>
+                <h6>{address ? `Selected location: ${address}` : `Click to select location`}</h6>
 
             </div>
         </div>

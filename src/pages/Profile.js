@@ -10,14 +10,14 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import { dbb } from '../firebase'; // Import the db reference from firebase.js
 import Moment from 'moment';
+import { useAuth } from '../contexts/AuthContext';
 
 
-async function getAllPosts() {
+async function getAllPosts(userID) {
   console.log("get all posts() called");
   
   const postRef = dbb.collection('post');
-  const snapshot = await postRef.get();
-
+  const snapshot = await postRef.where('userID', '==', userID).get();
 
   if (snapshot.empty) {
     console.log('No matching documents.');
@@ -37,17 +37,21 @@ async function getAllPosts() {
 
 const Posts = () => {
   
+  const { currentUser } = useAuth();
+  const userId = currentUser ? currentUser.email : null;
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       console.log("inside useEffect");
-      const postsData = await getAllPosts();
-      setPosts(postsData);
+      if (userId) {
+        const postsData = await getAllPosts(userId);
+        setPosts(postsData);
+      }
     };
     
     fetchData();
-  }, []);
+  }, [userId]);
   
   const handleAdopt = (postId) => {
     // Handle the adoption process here, e.g., navigate to an adoption page
@@ -60,22 +64,23 @@ const Posts = () => {
 
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        p: 1,
-        m: 1,
-        bgcolor: 'background.paper',
-        borderRadius: 1,
-      }}
-    >
-      <Button variant="contained" href='/create-post' sx={{ width: 350 }}>Create Post</Button>
-      {posts && posts.map((post, index) => {
-        return (
-          <Card key={index} sx={{ width: 350, mt: 5 }}>
+    <div style={{ display: 'inline-block', textAlign: 'left' }}>
+      <Typography variant="h4" gutterBottom sx={{ textAlign: 'center', mt: 4 }}>
+        Your Posts
+      </Typography>
+      {posts.map(post => (
+         <Card
+         key={post.id}
+         sx={{
+           width: 350,
+           mt: 4, // Set a negative margin-top
+           border: post.petStatus === 'Found' ? '3px solid lightgreen' : '2px solid transparent',
+         }}
+       >
+         {/* ... existing card code */}
+       
+        
+          <Card sx={{ width: 350, mt: 5 }}>
             <CardMedia
               sx={{ height: 140 }}
 
@@ -84,34 +89,26 @@ const Posts = () => {
             />
            
             <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                    Posted Date: {Moment(post.date).format('d MMM yyyy')}
-                </Typography>
-              <Typography gutterBottom variant="h5" component="div">
-                Pet Status: {post.petStatus}
             <Typography gutterBottom variant="h5" component="div">
-                  Posted Date: {Moment(post.date).format('MMMM Do YYYY')}
+                  Posted Date: {Moment(post.date).format('d MMM yyyy')}
               </Typography>
             <Typography gutterBottom variant="h5" component="div">
               Pet Status: {post.petStatus}
               </Typography>
               <Typography gutterBottom variant="h5" component="div">
-                Name: {post.name}
+              Name: {post.name}
               </Typography>
               <Typography variant="body2" color="text.secondary" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                Location: {post.city}, {post.state} ({post.county}) 
+              Location: {post.city}, {post.state} ({post.county}) 
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Date & Time {post.petStatus}: {post.petDateTime}
+              Color: {post.color}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Color: {post.color}
+              Breed: {post.breed}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Breed: {post.breed}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Size: {post.size}
+              Size: {post.size}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Gender: {post.gender}
@@ -125,28 +122,22 @@ const Posts = () => {
               <Typography variant="body2" color="text.secondary">
                 Spayed/Neutered: {post.spayed}
               </Typography>
+              
             </CardContent>
-            <CardActions>
-            {post.petStatus === 'Found' && (
-                <Button variant="contained" onClick={() => handleAdopt(post.id)}>
-                  Adopt
-                </Button>
-              )}
-              <Button size="small">Share</Button>
-              <Button size="small">Learn More</Button>
-             
-              <Button onClick={() => {
-                  const url = '/edit-post/' + post.id;
-                  window.location.assign(url);
-                }}>
-                Edit Post 
+            <CardActions sx={{ justifyContent: 'center' }}>
+            <Button size="small">Share</Button>
+            <Button size="small">Learn More</Button>
+            {post.petStatus !== 'Found' && (
+              <Button onClick={() => window.location.assign(`/edit-post/${post.id}`)}>
+                Edit Post
               </Button>
-             
-            </CardActions>
+            )}
+          </CardActions>
           </Card>
-        )}
-      )}
-    </Box>
+          </Card>
+      ))}
+            <div style={{ height: '50px' }}></div>
+    </div>
   );
 }
 
