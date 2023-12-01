@@ -10,14 +10,11 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
-import {getDownloadURL} from "firebase/storage";
 import { MuiTelInput } from 'mui-tel-input'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import { getDatabase, ref, child, get } from "firebase/database";
 import {getDownloadURL} from "firebase/storage";
-import { ConstructionOutlined } from '@mui/icons-material';
-import Map from './Map2.tsx';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -190,7 +187,6 @@ export default function PostCard() {
         petDateTime: petDateTimeString,
         phoneNumber: phoneNumber,
         userID: currentUser.email,
-        date: Date.now()
       });
 
       // Retrieve the auto-generated document ID
@@ -553,9 +549,8 @@ export default function PostCard() {
           </Stack>
 
         </Box>
+        </Box>
       </CardContent>
-
     </Card>
-    
-  );
+    )
 }

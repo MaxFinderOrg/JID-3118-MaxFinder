@@ -89,6 +89,7 @@ const Posts = () => {
                 </Typography>
               <Typography gutterBottom variant="h5" component="div">
                 Pet Status: {post.petStatus}
+              </Typography>
             <Typography gutterBottom variant="h5" component="div">
                   Posted Date: {Moment(post.date).format('MMMM Do YYYY')}
               </Typography>
