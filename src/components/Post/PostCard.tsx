@@ -10,14 +10,11 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
-import {getDownloadURL} from "firebase/storage";
+import { getDownloadURL } from "firebase/storage";
 import { MuiTelInput } from 'mui-tel-input'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import { getDatabase, ref, child, get } from "firebase/database";
-import {getDownloadURL} from "firebase/storage";
-import { ConstructionOutlined } from '@mui/icons-material';
-import Map from './Map2.tsx';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -189,8 +186,7 @@ export default function PostCard() {
         date: Date.now(),
         petDateTime: petDateTimeString,
         phoneNumber: phoneNumber,
-        userID: currentUser.email,
-        date: Date.now()
+        userID: currentUser.email
       });
 
       // Retrieve the auto-generated document ID
@@ -276,9 +272,9 @@ export default function PostCard() {
             borderRadius: 1,
           }}
         >
-        <div>
-          <h6>If you lost your pet, report pet as Lost. If you found a pet that was lost, report pet as Found.</h6>
-        </div>
+          <div>
+            <h6>If you lost your pet, report pet as Lost. If you found a pet that was lost, report pet as Found.</h6>
+          </div>
           <Box sx={{ ml: 1, mt: 2 }}>
             <FormControl>
               <FormLabel id="petStatus-label">Pet Status</FormLabel>
@@ -293,7 +289,7 @@ export default function PostCard() {
           </Box>
 
           <Box sx={{ mb: 2 }}>
-          <FormControl>
+            <FormControl>
               <FormLabel id="petDateTime-label" sx={{ ml: 1}}>Lost/Found: Date & Time</FormLabel>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateTimePicker
@@ -306,7 +302,115 @@ export default function PostCard() {
           </Box>
           
           <Box>
-          <FormLabel sx={{ ml: 1}}>Pet Information</FormLabel>
+            <FormLabel sx={{ ml: 1}}>Pet Information</FormLabel>
+              <TextField
+                required
+                fullWidth
+                id="outlined-required"
+                label="Name"
+                onChange={(e) => {
+                  setName(e.target.value)
+                }}
+              />
+
+              <TextField
+                required
+                fullWidth
+                id="outlined-required"
+                label="Breed"
+                onChange={(e) => {
+                  setBreed(e.target.value)
+                }}
+              />
+
+              <TextField
+                required
+                fullWidth
+                id="outlined-required"
+                label="Color"
+                onChange={(e) => {
+                  setColor(e.target.value)
+                }}
+              />
+
+              <TextField
+                id="size"
+                label="Size"
+                fullWidth
+                required
+                select
+                SelectProps={{
+                  native: true,
+                }}
+                defaultValue={''}
+                onChange={(e) => {
+                  setSize(e.target.value)
+                }}
+              >
+                {sizes.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </TextField>
+
+              <Box sx={{ ml: 1, mt: 2 }}>
+                <FormControl>
+                  <FormLabel id="gender-label">Gender</FormLabel>
+                  <RadioGroup
+                    row
+                    onChange={(e) => setGender(e.target.value)}
+                  >
+                    <FormControlLabel value="Female" control={<Radio />} label="Female" />
+                    <FormControlLabel value="Male" control={<Radio />} label="Male" />
+                  </RadioGroup>
+
+                  <FormLabel id="tagged-label">Tagged</FormLabel>
+                  <RadioGroup
+                    row
+                    onChange={(e) => setTagged(e.target.value)}
+                  >
+                    <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                    <FormControlLabel value="No" control={<Radio />} label="No" />
+                  </RadioGroup>
+
+                  <FormLabel id="microchipped-label">Microchipped</FormLabel>
+                  <RadioGroup
+                    row
+                    onChange={(e) => setMicrochipped(e.target.value)}
+                  >
+                    <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                    <FormControlLabel value="No" control={<Radio />} label="No" />
+                  </RadioGroup>
+
+                  <FormLabel id="spayed-label">Spayed/Neutered</FormLabel>
+                  <RadioGroup
+                    row
+                    onChange={(e) => setSpayed(e.target.value)}
+                  >
+                    <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                    <FormControlLabel value="No" control={<Radio />} label="No" />
+                  </RadioGroup>
+
+                  <FormLabel id="spayed-label">Upload a picture of your pet</FormLabel>
+                  <div style={{marginTop: 4}}>
+                      <input type="file" onChange={onImageChange} className="filetype" />
+                      {image && (<Box
+                        component="img"
+                        sx={{
+                          height: 233,
+                          width: 350,
+                          marginTop: 2,
+                          maxHeight: { xs: 233, md: 167 },
+                          maxWidth: { xs: 350, md: 250 },
+                        }}
+                        alt="The photo of the pet"
+                        src={image}
+                      />)}
+                  </div>
+                </FormControl> 
+              </Box>
+
             <TextField
               required
               fullWidth
@@ -395,9 +499,8 @@ export default function PostCard() {
                   <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                   <FormControlLabel value="No" control={<Radio />} label="No" />
                 </RadioGroup>
-
                 <FormLabel id="spayed-label">Upload a picture of your pet</FormLabel>
-                <div style={{marginTop: 4}}>
+                <div style={{marginTop: "10px"}}>
                     <input type="file" onChange={onImageChange} className="filetype" />
                     {image && (<Box
                       component="img"
@@ -412,150 +515,44 @@ export default function PostCard() {
                       src={image}
                     />)}
                 </div>
+
+                <FormLabel id="contact-label" sx={{ mt: 2 }}>Your Phone Number</FormLabel>
+                <MuiTelInput
+                  fullWidth
+                  value={phoneNumber}
+                  defaultCountry="US"
+                  onChange={handlePhoneChange}
+                />
+
+                <p style={{marginTop: "-4px"}}></p>
+                <FormLabel id="address-label">Enter Address</FormLabel>
+                <TextField
+                  required
+                  fullWidth
+                  id="address"
+                  value={manualEntry}
+                  label="Address"
+                  onChange={(e) => {
+                      setManualEntry (e.target.value);
+                      handleAddress({address: e.target.value});
+                  }}
+                />
+                {addressError && (<h6 style={{color: "red"}}>Address not found</h6>)}
               </FormControl> 
+
             </Box>
-          <TextField
-            required
-            fullWidth
-            id="outlined-required"
-            label="Name"
-            onChange={(e) => {
-              setName(e.target.value)
-            }}
-          />
-
-          <TextField
-            required
-            fullWidth
-            id="outlined-required"
-            label="Breed"
-            onChange={(e) => {
-              setBreed(e.target.value)
-            }}
-          />
-
-          <TextField
-            required
-            fullWidth
-            id="outlined-required"
-            label="Color"
-            onChange={(e) => {
-              setColor(e.target.value)
-            }}
-          />
-
-          <TextField
-            id="size"
-            label="Size"
-            fullWidth
-            required
-            select
-            SelectProps={{
-              native: true,
-            }}
-            defaultValue={''}
-            onChange={(e) => {
-              setSize(e.target.value)
-            }}
-          >
-            {sizes.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </TextField>
-
-          <Box sx={{ ml: 1, mt: 2 }}>
-            <FormControl>
-              <FormLabel id="gender-label">Gender</FormLabel>
-              <RadioGroup
-                row
-                onChange={(e) => setGender(e.target.value)}
-              >
-                <FormControlLabel value="Female" control={<Radio />} label="Female" />
-                <FormControlLabel value="Male" control={<Radio />} label="Male" />
-              </RadioGroup>
-
-              <FormLabel id="tagged-label">Tagged</FormLabel>
-              <RadioGroup
-                row
-                onChange={(e) => setTagged(e.target.value)}
-              >
-                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-                <FormControlLabel value="No" control={<Radio />} label="No" />
-              </RadioGroup>
-
-              <FormLabel id="microchipped-label">Microchipped</FormLabel>
-              <RadioGroup
-                row
-                onChange={(e) => setMicrochipped(e.target.value)}
-              >
-                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-                <FormControlLabel value="No" control={<Radio />} label="No" />
-              </RadioGroup>
-
-              <FormLabel id="spayed-label">Spayed/Neutered</FormLabel>
-              <RadioGroup
-                row
-                onChange={(e) => setSpayed(e.target.value)}
-              >
-                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-                <FormControlLabel value="No" control={<Radio />} label="No" />
-              </RadioGroup>
-              <FormLabel id="spayed-label">Upload a picture of your pet</FormLabel>
-              <div style={{marginTop: "10px"}}>
-                  <input type="file" onChange={onImageChange} className="filetype" />
-                  {image && (<Box
-                    component="img"
-                    sx={{
-                      height: 233,
-                      width: 350,
-                      marginTop: 2,
-                      maxHeight: { xs: 233, md: 167 },
-                      maxWidth: { xs: 350, md: 250 },
-                    }}
-                    alt="The photo of the pet"
-                    src={image}
-                  />)}
-              </div>
-              <p style={{marginTop: "-4px"}}></p>
-              <FormLabel id="address-label">Enter Address</FormLabel>
-              <TextField
-                required
-                fullWidth
-                id="address"
-                value={manualEntry}
-                label="Address"
-                onChange={(e) => {
-                    setManualEntry (e.target.value);
-                    handleAddress({address: e.target.value});
-                }}
-              />
-              {addressError && (<h6 style={{color: "red"}}>Address not found</h6>)}
-            </FormControl> 
-
-            <FormLabel id="contact-label">Your Phone Number</FormLabel>
-            <MuiTelInput
-              fullWidth
-              value={phoneNumber}
-              defaultCountry="US"
-              onChange={handlePhoneChange}
-            />
+            <Map onMapData={handleMapData} initial={enteredLocation}/>
+            <p style={{marginTop:"-60px"}}></p>
+            <h6>{address ? `Selected location: ${address}` : ``}</h6>     
+            <Stack spacing={2} direction="row" mt={3} sx={{ ml: 1 }}>
+              <Button variant="contained" onClick={handleSubmit}>Submit</Button>
+              <Button variant="outlined" href='/posts'>Cancel</Button>
+              <Button variant="contained" onClick={(e) => handleClick(e, "clicked")}>print data</Button>
+              <Button variant="outlined" href='/edit-post'>Edit</Button>
+            </Stack>
           </Box>
-          <Map onMapData={handleMapData} initial={enteredLocation}/>
-          <p style={{marginTop:"-60px"}}></p>
-          <h6>{address ? `Selected location: ${address}` : ``}</h6>     
-          <Stack spacing={2} direction="row" mt={3} sx={{ ml: 1 }}>
-            <Button variant="contained" onClick={handleSubmit}>Submit</Button>
-            <Button variant="outlined" href='/posts'>Cancel</Button>
-            <Button variant="contained" onClick={(e) => handleClick(e, "clicked")}>print data</Button>
-            <Button variant="outlined" href='/edit-post'>Edit</Button>
-          </Stack>
-
         </Box>
       </CardContent>
-
     </Card>
-    
-  );
+    )
 }
