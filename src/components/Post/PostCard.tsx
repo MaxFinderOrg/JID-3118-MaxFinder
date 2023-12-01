@@ -11,7 +11,6 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import {getDownloadURL} from "firebase/storage";
-import Map from './Map2.tsx';
 import { MuiTelInput } from 'mui-tel-input'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
@@ -172,7 +171,7 @@ export default function PostCard() {
         county: county,
         city: city,
         imageRef: imageRef,
-        phoneNumber: phoneNumber
+        phoneNumber: phoneNumber,
         userID: currentUser.email,
         date: Date.now()
       });
@@ -396,8 +395,6 @@ export default function PostCard() {
               />
               {addressError && (<h6 style={{color: "red"}}>Address not found</h6>)}
             </FormControl> 
-
-            <Map onMapData={handleMapData}/>
 
             <FormLabel id="contact-label">Your Phone Number</FormLabel>
             <MuiTelInput
