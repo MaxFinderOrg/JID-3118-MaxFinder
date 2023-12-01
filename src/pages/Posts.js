@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
+import SearchBar from '../components/SearchBar/SearchBar.tsx';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -12,11 +13,18 @@ import { dbb } from '../firebase'; // Import the db reference from firebase.js
 import Moment from 'moment';
 
 
-async function getAllPosts() {
+export async function getAllPosts(searchQuery) {
   console.log("get all posts() called");
   
   const postRef = dbb.collection('post');
-  const snapshot = await postRef.get();
+
+  let query = postRef;
+
+  if (searchQuery) {
+    query = query.where('name', '>=', searchQuery).where('name', '<=', searchQuery + '\uf8ff');
+  }
+
+  const snapshot = await query.get();
 
 
   if (snapshot.empty) {
@@ -35,19 +43,19 @@ async function getAllPosts() {
   return postsData;
 }
 
-const Posts = () => {
-  
+const Posts = ({ searchQuery, filteredResults }) => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       console.log("inside useEffect");
-      const postsData = await getAllPosts();
+      const postsData = await getAllPosts(searchQuery);
       setPosts(postsData);
+      
     };
     
     fetchData();
-  }, []);
+  }, [searchQuery]);
   
   const handleAdopt = (postId) => {
     // Handle the adoption process here, e.g., navigate to an adoption page
@@ -56,26 +64,29 @@ const Posts = () => {
   };
 
   console.log(posts); // Log the raw data to the console
-  
 
+  //const filteredPosts = posts;
+
+  const postsToDisplay = searchQuery.trim() !== '' ? filteredResults : posts;
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        p: 1,
-        m: 1,
-        bgcolor: 'background.paper',
-        borderRadius: 1,
-      }}
-    >
-      <Button variant="contained" href='/create-post' sx={{ width: 350 }}>Create Post</Button>
-      {posts && posts.map((post, index) => {
-        return (
-          <Card key={index} sx={{ width: 350, mt: 5 }}>
+    <div>
+      {postsToDisplay && postsToDisplay.length > 0 ? (
+      postsToDisplay.map(post => (
+        <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'column',
+          p: 1,
+          m: 1,
+          bgcolor: 'background.paper',
+          borderRadius: 1,
+        }}
+      >
+        
+          <Card sx={{ width: 350, mt: 5 }}>
             <CardMedia
               sx={{ height: 140 }}
 
@@ -145,9 +156,14 @@ const Posts = () => {
              
             </CardActions>
           </Card>
-        )}
+      </Box>
+      ))
+
+      ) : (
+        <p>No posts found.</p>
       )}
-    </Box>
+      
+    </div>
   );
 }
 

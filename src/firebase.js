@@ -1,6 +1,8 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth'; 
 import { getAnalytics } from "firebase/analytics";
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 const firebaseConfig = {
@@ -58,6 +60,7 @@ requestPermission();
 
 
 const analytics = getAnalytics(app);
+const db = getFirestore(app);
 
 export const auth = app.auth()
 export default app;
