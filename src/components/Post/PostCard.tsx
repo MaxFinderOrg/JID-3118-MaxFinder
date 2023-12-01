@@ -15,7 +15,10 @@ import Map from './Map2.tsx';
 import { MuiTelInput } from 'mui-tel-input'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
+import { ConstructionOutlined, SentimentSatisfiedAlt } from '@mui/icons-material';
+import Map from './Map2';
 import 'firebase/compat/storage';
+import { useAuth } from '../../contexts/AuthContext';
 
 
 //handler
@@ -37,6 +40,7 @@ const handleClick = (event: React.MouseEvent<HTMLElement>, text: string) => {
 };
 
 export default function PostCard() {
+  const { currentUser } = useAuth();
   const [name, setName] = useState('');
   const [breed, setBreed] = useState('');
   const [color, setColor] = useState('');
@@ -57,7 +61,11 @@ export default function PostCard() {
   const [state, setState] = useState('');
   const [county, setCounty] = useState('');
   const [city, setCity] = useState('');
+  const [enteredLocation, setEnteredLocation] = useState<{ lat: number; lng: number } | null>(null); 
 
+  const [addressError, setAddressError] = useState(false);
+  const [manualEntry, setManualEntry] = useState('');
+    
   const handleMapData = (
     userLocation: { lat: number; lng: number },
     markerLocation: { lat: number; lng: number },
@@ -83,6 +91,8 @@ export default function PostCard() {
     setState(state);
     setCounty(county);
     setCity(city);
+    setEnteredLocation (null);
+    setManualEntry('');
   }
 
   const sizes = [
@@ -119,6 +129,27 @@ export default function PostCard() {
   const handleSubmit = async () => {
     console.log("submit post pressed");
 
+    // Define an array to store the names of missing fields
+    const missingFields = [];
+
+    // Check each required field
+    if (!petStatus) missingFields.push('Pet Status');
+    if (!name) missingFields.push('Name');
+    if (!breed) missingFields.push('Breed');
+    if (!color) missingFields.push('Color');
+    if (!size) missingFields.push('Size');
+    if (!gender) missingFields.push('Gender');
+    if (!tagged) missingFields.push('Tagged');
+    if (!microchipped) missingFields.push('Microchipped');
+    if (!spayed) missingFields.push('Spayed/Neutered');
+
+    // Check if there are any missing fields
+    if (missingFields.length > 0) {
+      // Display an error message with the names of missing fields
+      alert(`Please fill in the following fields before submitting: ${missingFields.join(', ')}`);
+      return;
+    }
+
     const saveToFirebase = firebase.firestore();
     const collectionRef = saveToFirebase.collection("post");
 
@@ -133,16 +164,17 @@ export default function PostCard() {
         microchipped: microchipped,
         spayed: spayed,
         petStatus: petStatus,
-        latitude: markerLocation?.lat,
-        longitude: markerLocation?.lng,
+        latitude: markerLocation ? markerLocation.lat : enteredLocation?.lat,
+        longitude: markerLocation ? markerLocation.lng : enteredLocation?.lng,
         address: address,
         country: country,
         state: state,
         county: county,
         city: city,
         imageRef: imageRef,
-        date: Date.now(),
         phoneNumber: phoneNumber
+        userID: currentUser.email,
+        date: Date.now()
       });
 
       // Retrieve the auto-generated document ID
@@ -176,6 +208,39 @@ export default function PostCard() {
         // function (imageURL) {
     }
   }
+          
+  const handleAddress = ({ address }: { address: string}) => {
+    // Fetch and handle reverse geocoding data
+  
+    const myAPIKey = "d6b32867b992488091820bcca116a039";
+    let searchGeocodingUrl = "https://api.geoapify.com/v1/geocode/search?text=" + address + "&format=json";
+    searchGeocodingUrl += `&&apiKey=${myAPIKey}`;
+  
+    // call search Geocoding API - 
+    fetch(searchGeocodingUrl)
+      .then((response) => {
+        if (!response.ok) {
+          setAddressError(true);
+        }
+        return response.json();
+      })
+      .then((result) => {
+        if (result.results.length > 0) {
+          const lat = result.results[0].lat;
+          const lng = result.results[0].lon;
+          console.log(lat, lng);
+          setAddressError (false);
+          setEnteredLocation ({lat, lng});
+          setAddress(result.results[0].formatted);
+          setCountry(result.results[0]['country']);
+          setState(result.results[0].state);
+          setCounty(result.results[0].county);
+          setCity(result.results[0].city);
+        } else {
+          setAddressError(true);
+        }
+      });
+    };
 
   return (
     <Card sx={{ width: 500 }}>
@@ -301,7 +366,7 @@ export default function PostCard() {
                 <FormControlLabel value="No" control={<Radio />} label="No" />
               </RadioGroup>
               <FormLabel id="spayed-label">Upload a picture of your pet</FormLabel>
-              <div style={{marginTop: 4}}>
+              <div style={{marginTop: "10px"}}>
                   <input type="file" onChange={onImageChange} className="filetype" />
                   {image && (<Box
                     component="img"
@@ -316,7 +381,20 @@ export default function PostCard() {
                     src={image}
                   />)}
               </div>
-
+              <p style={{marginTop: "-4px"}}></p>
+              <FormLabel id="address-label">Enter Address</FormLabel>
+              <TextField
+                required
+                fullWidth
+                id="address"
+                value={manualEntry}
+                label="Address"
+                onChange={(e) => {
+                    setManualEntry (e.target.value);
+                    handleAddress({address: e.target.value});
+                }}
+              />
+              {addressError && (<h6 style={{color: "red"}}>Address not found</h6>)}
             </FormControl> 
 
             <Map onMapData={handleMapData}/>
@@ -329,7 +407,9 @@ export default function PostCard() {
               onChange={handlePhoneChange}
             />
           </Box>
-          
+          <Map onMapData={handleMapData} initial={enteredLocation}/>
+          <p style={{marginTop:"-60px"}}></p>
+          <h6>{address ? `Selected location: ${address}` : ``}</h6>     
           <Stack spacing={2} direction="row" mt={3} sx={{ ml: 1 }}>
             <Button variant="contained" onClick={handleSubmit}>Submit</Button>
             <Button variant="outlined" href='/posts'>Cancel</Button>

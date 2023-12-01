@@ -7,7 +7,6 @@ import ContactUs from "./pages/Contact";
 import Resources from "./pages/Resources";
 import NotFound from "./pages/NotFound";
 import Account from "./pages/Account";
-import Profile from "./pages/Profile";
 import SignUp from "./components/SignUp"
 import LogIn from "./components/LogIn";
 import ForgotPassword from "./components/ForgotPassword";
@@ -29,7 +28,6 @@ const Router1 = () => {
       <Route path="/contactus" element={<ContactUs />} />
       <Route path="/resources" element={<Resources />} />
       <Route path="/account" element={<Account />} />
-      <Route path="/profile" element={<Profile />} />
       <Route exact path='/update-profile' element={<PrivateRoute/>}>
       <Route exact path='/update-profile' element={<UpdateProfile/>}/></Route>
       <Route path="/signup" element={<SignUp/>} />
