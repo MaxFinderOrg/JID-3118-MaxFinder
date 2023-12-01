@@ -119,7 +119,7 @@ const Posts = () => {
               </Typography>
               
             </CardContent>
-            {/* <CardActions sx={{ justifyContent: 'center' }}>
+            <CardActions sx={{ justifyContent: 'center' }}>
             {post.petStatus === 'Found' && (
                 <Button variant="contained" onClick={() => handleAdopt(post.id)}>
                   Adopt
@@ -128,7 +128,7 @@ const Posts = () => {
               <Button size="small">Share</Button>
               <Button size="small">Learn More</Button>
              
-            </CardActions> */}
+            </CardActions>
           </Card>
       </Card>
       ))}
