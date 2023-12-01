@@ -68,8 +68,8 @@ const Home = () => {
           //const searchWords = lowerCaseSearchQuery.split(' ');
           return searchWords.some((word) =>
           [post.name, post.breed, post.color, post.size, post.gender, post.city, post.country, post.county, post.address, post.state]
-            .filter(Boolean) 
-            .some((field) => field.toLowerCase().includes(word))
+          .filter(Boolean)  
+          .some((field) => field.toLowerCase().includes(word))
         );
       });
 
