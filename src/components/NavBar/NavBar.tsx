@@ -128,9 +128,6 @@ function NavBar() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem href="/Profile" component="a"  onClick={handleClose}>
-          <Avatar /> Profile
-        </MenuItem>
         <MenuItem href="/account" component="a"  onClick={handleClose}>
           <Avatar />  My Account
         </MenuItem>

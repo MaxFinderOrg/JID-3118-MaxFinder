@@ -25,15 +25,7 @@ export function AuthProvider({ children }) {
  }
 
  function login(email, password) {
-  signInWithEmailAndPassword(auth,email,password).then((userCredential) => {
-   // Signed up 
-   const user = userCredential.user;
-   // ...
- })
- .catch((err) => {
-   console.log(err.code);
-   console.log(err.message);
- });
+  return signInWithEmailAndPassword(auth,email,password);
 }
 
   function logout() {

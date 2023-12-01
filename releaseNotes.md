@@ -4,20 +4,52 @@ This web application is to connect pet owners who have lost their pets with peop
 [Licences under GNUv3 ](LICENSE.md)
 
 ## Release Notes
-### Version 0.2.0
+
+
+
+### Version 0.4.0
 
 #### New Features
-* GitHub setup
-* Material UI library inclusion
+* User is able to add location of lost/found pet
+* User is able to edit location of lost/found pet
+* User is able to filter by location of lost/found pet
+* User is able to recieve notifications
+
 
 #### Bug Fixes
-* Fixed mobile app bugs by transforming our codebase 
-* Fixed GitHub access bugs and granted team access as team members 
+* Accepting and saving location data to backend
+* Handle submit now stays on correct page
+
 
 #### Known Issues
-* Small bugs within file structure
-* User is able to log in with wrong password
-* User is not able to update Email correctly
+* Notification center has limited capabilities
+
+
+### Version 0.3.0
+
+#### New Features
+* User is able to post a report of a pet
+* User is able to report lost pets user found
+* User is able to report lost pets user lost
+* User is able to edit post
+* User is able to adopt a pet that was found and hs no owner 
+* User is able to serch for a post
+* User is able to delete a post
+* User is able to add pictures to post
+
+#### Bug Fixes
+* Posts and information is centered  
+
+#### Known Issues
+* User is not able to change their email once signed up and logged in
+* Handle submit after posting to redirect to home page
+* Center only certain pages not all
+
+
+
+
+
+
 
 
 ### Version 0.2.0
@@ -34,4 +66,24 @@ This web application is to connect pet owners who have lost their pets with peop
 
 #### Known Issues
 * Settings page uses JSON local storage instead of Firebase
+
+
+
+
+
+
+### Version 0.1.0
+
+#### New Features
+* GitHub setup
+* Material UI library inclusion
+
+#### Bug Fixes
+* Fixed mobile app bugs by transforming our codebase 
+* Fixed GitHub access bugs and granted team access as team members 
+
+#### Known Issues
+* Small bugs within file structure
+* User is able to log in with wrong password
+* User is not able to update Email correctly
 
