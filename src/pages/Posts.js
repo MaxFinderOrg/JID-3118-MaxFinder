@@ -61,7 +61,7 @@ const Posts = ({ searchQuery, filteredResults }) => {
 
   //const filteredPosts = posts;
 
-  const postsToDisplay = searchQuery.trim() !== '' ? filteredResults : posts;
+  const postsToDisplay = searchQuery?.trim() !== '' ? filteredResults : posts;
 
   return (
     <div>

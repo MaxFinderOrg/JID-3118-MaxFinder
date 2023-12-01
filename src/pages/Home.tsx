@@ -54,7 +54,7 @@ const Home = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (searchQuery.trim() !== '') {
+      if (searchQuery?.trim() !== '') {
           // Fetch all posts
         const allPosts = await getAllPosts();
 
