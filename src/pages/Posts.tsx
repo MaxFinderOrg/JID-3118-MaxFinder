@@ -65,7 +65,7 @@ const Posts = () => {
         <Button variant="contained" href='/create-post' sx={{ width: 350 }}>Create Post</Button>
       </div>
       
-      {/* {posts.map(post => (
+      {posts.map(post => (
         <Card
         key={post.id}
         sx={{
@@ -73,7 +73,7 @@ const Posts = () => {
           mt: 4, // Set a negative margin-top
           border: post.petStatus === 'Found' ? '3px solid lightgreen' : '2px solid transparent',
         }}
-      > */}
+      >
         
           <Card sx={{ width: 350, mt: 5 }}>
             <CardMedia
