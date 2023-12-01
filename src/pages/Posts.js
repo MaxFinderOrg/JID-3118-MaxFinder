@@ -74,7 +74,7 @@ const Posts = () => {
     >
       <Button variant="contained" href='/create-post' sx={{ width: 350 }}>Create Post</Button>
       {posts && posts.map((post, index) => {
-        return(
+        return (
           <Card key={index} sx={{ width: 350, mt: 5 }}>
             <CardMedia
               sx={{ height: 140 }}
@@ -137,10 +137,9 @@ const Posts = () => {
              
             </CardActions>
           </Card>
-      </Box>
-      ))}
-      
-    </div>
+        )}
+      )}
+    </Box>
   );
 }
 
