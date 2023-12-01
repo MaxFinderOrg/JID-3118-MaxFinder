@@ -67,28 +67,11 @@ const Home = () => {
           //const lowerCaseSearchQuery = searchQuery.toLowerCase();
           //const searchWords = lowerCaseSearchQuery.split(' ');
           return searchWords.some((word) =>
-          [post.name, post.breed, post.color, post.size, post.gender]
+          [post.name, post.breed, post.color, post.size, post.gender, post.city, post.country, post.county, post.address, post.state]
+            .filter(Boolean) 
             .some((field) => field.toLowerCase().includes(word))
         );
       });
-          /*
-          const matchesSearch = (
-            post.name.toLowerCase().includes(lowerCaseSearchQuery) ||
-            post.breed.toLowerCase().includes(lowerCaseSearchQuery) ||
-            post.color.toLowerCase().includes(lowerCaseSearchQuery) ||
-            post.size.toLowerCase().includes(lowerCaseSearchQuery) ||
-            post.gender.toLowerCase().includes(lowerCaseSearchQuery)
-          );
-          */
-
-          // Filter based on specific filter (e.g., breed)
-          //const matchesBreedFilter = filters.breed ? post.breed === filters.breed : true;
-
-          // Add more filter conditions as needed
-        
-          // Return true if the post passes all filters
-          //return matchesSearch;// && matchesBreedFilter;
-        //});
 
         // Update the filteredResults state
         setFilteredResultsState(filteredPosts);
