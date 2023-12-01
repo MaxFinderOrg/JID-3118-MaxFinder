@@ -60,26 +60,22 @@ const Posts = () => {
 
 
   return (
-    <div>
-      <div style={{ marginTop: '2em' }}>
-        <Button variant="contained" href='/create-post' sx={{ width: 350 }}>Create Post</Button>
-      </div>
-      
-      {posts.map(post => (
-        <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexDirection: 'column',
-          p: 1,
-          m: 1,
-          bgcolor: 'background.paper',
-          borderRadius: 1,
-        }}
-      >
-        
-          <Card sx={{ width: 350, mt: 5 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        p: 1,
+        m: 1,
+        bgcolor: 'background.paper',
+        borderRadius: 1,
+      }}
+    >
+      <Button variant="contained" href='/create-post' sx={{ width: 350 }}>Create Post</Button>
+      {posts && posts.map((post, index) => {
+        return(
+          <Card key={index} sx={{ width: 350, mt: 5 }}>
             <CardMedia
               sx={{ height: 140 }}
 
