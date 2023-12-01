@@ -20,7 +20,7 @@ export default function Login() {
       await login(emailRef.current.value, passwordRef.current.value)
       navigate("/home")
     } catch {
-      setError("Failed to log in")
+      setError("Invalid username or password. Try again.")
     }
 
     setLoading(false)
@@ -43,6 +43,7 @@ export default function Login() {
               <Form.Label>Password</Form.Label>
               <Form.Control type="password" ref={passwordRef} required />
             </Form.Group>
+            <p></p>
             <Button disabled={loading} className="w-100" type="submit">
               Log In
             </Button>
