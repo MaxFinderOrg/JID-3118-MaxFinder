@@ -122,6 +122,7 @@ const Map = ({ onMapData, initial }: MapProps) => {
                         <Marker lat={markerLocation.lat} lng={markerLocation.lng} />
                     )}
                 </GoogleMapReact>
+                <h6>{address ? `Selected location: ${address}` : `Click to select location`}</h6>
 
             </div>
         </div>

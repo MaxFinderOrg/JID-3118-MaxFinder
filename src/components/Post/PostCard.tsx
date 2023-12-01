@@ -2,10 +2,7 @@ import React, { ChangeEvent, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
-import Avatar from '@mui/material/Avatar';
-import { red } from '@mui/material/colors';
 import { FormControl, TextField } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -13,10 +10,11 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
+import {getDownloadURL} from "firebase/storage";
+import Map from './Map2.tsx';
+import { MuiTelInput } from 'mui-tel-input'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
-import { getDatabase, ref, child, get } from "firebase/database";
-import {getDownloadURL} from "firebase/storage";
 import { ConstructionOutlined, SentimentSatisfiedAlt } from '@mui/icons-material';
 import Map from './Map2';
 import 'firebase/compat/storage';
@@ -54,7 +52,7 @@ export default function PostCard() {
   const [petStatus, setPetStatus] = useState('');
   const [image, setImage] = useState('');
   const [imageRef, setImageRef] = useState('');
-
+  const [phoneNumber, setPhoneNumber] = useState('');
 
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number }>({ lat: 0, lng: 0 });
   const [markerLocation, setMarkerLocation] = useState<{ lat: number; lng: number } | null>(null);
@@ -97,7 +95,6 @@ export default function PostCard() {
     setManualEntry('');
   }
 
-  
   const sizes = [
     {
       value: '',
@@ -124,6 +121,10 @@ export default function PostCard() {
       label: 'XLarge (90 lbs and Up)'
     }
   ];
+
+  const handlePhoneChange = (newPhone: any) => {
+    setPhoneNumber(newPhone)
+  }
 
   const handleSubmit = async () => {
     console.log("submit post pressed");
@@ -171,6 +172,7 @@ export default function PostCard() {
         county: county,
         city: city,
         imageRef: imageRef,
+        phoneNumber: phoneNumber
         userID: currentUser.email,
         date: Date.now()
       });
@@ -188,7 +190,6 @@ export default function PostCard() {
     window.location.href = '/posts'; // Redirect to the posts page after deletion
   }
 
-
   const onImageChange = async (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setImage(URL.createObjectURL(event.target.files[0]));
@@ -203,13 +204,11 @@ export default function PostCard() {
       var uploadingElement = await storageRef.put(event.target.files[0]);
       const downloadURL = await getDownloadURL(storageRef);
       setImageRef(downloadURL);
-     // uploadingElement.snapshot.ref.getDownloadURL().then(
-       // function (imageURL) {
-         
-      
+      // uploadingElement.snapshot.ref.getDownloadURL().then(
+        // function (imageURL) {
     }
   }
-
+          
   const handleAddress = ({ address }: { address: string}) => {
     // Fetch and handle reverse geocoding data
   
@@ -242,7 +241,6 @@ export default function PostCard() {
         }
       });
     };
-
 
   return (
     <Card sx={{ width: 500 }}>
@@ -382,7 +380,6 @@ export default function PostCard() {
                     alt="The photo of the pet"
                     src={image}
                   />)}
-
               </div>
               <p style={{marginTop: "-4px"}}></p>
               <FormLabel id="address-label">Enter Address</FormLabel>
@@ -400,13 +397,19 @@ export default function PostCard() {
               {addressError && (<h6 style={{color: "red"}}>Address not found</h6>)}
             </FormControl> 
 
+            <Map onMapData={handleMapData}/>
 
+            <FormLabel id="contact-label">Your Phone Number</FormLabel>
+            <MuiTelInput
+              fullWidth
+              value={phoneNumber}
+              defaultCountry="US"
+              onChange={handlePhoneChange}
+            />
           </Box>
-
           <Map onMapData={handleMapData} initial={enteredLocation}/>
           <p style={{marginTop:"-60px"}}></p>
-          <h6>{address ? `Selected location: ${address}` : ``}</h6>
-          
+          <h6>{address ? `Selected location: ${address}` : ``}</h6>     
           <Stack spacing={2} direction="row" mt={3} sx={{ ml: 1 }}>
             <Button variant="contained" onClick={handleSubmit}>Submit</Button>
             <Button variant="outlined" href='/posts'>Cancel</Button>
