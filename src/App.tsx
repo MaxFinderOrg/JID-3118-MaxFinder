@@ -11,14 +11,7 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <NavigationBar />
-        <Container
-        className="d-flex align-items-center justify-content-center"
-        style={{ minHeight: "100vh" }}
-         >
-          <div className="w-100" style={{ maxWidth: "400px" }}>
-          <Router1 />
-          </div>
-        </Container>
+        <Router1 />
       </AuthProvider>
     </BrowserRouter>
   );

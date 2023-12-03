@@ -81,15 +81,9 @@ export default function Search() {
   return (
     <div>
       <SearchBar handleSearch={handleSearch} />
-      <FilterResults results={searchResults} />
-      {searchResults.length > 0 && (
-      <SearchPopup
-        open={searchPopupOpen}
-        onClose={handleCloseSearchPopup}
-        results={searchResults}
-        posts={posts}
-      />
-    )}
+      
+      
+    
     </div>
   );
 
