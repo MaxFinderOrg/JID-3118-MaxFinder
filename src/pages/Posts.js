@@ -92,9 +92,6 @@ const Posts = ({ searchQuery, filteredResults }) => {
            
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                    Posted Date: {Moment(post.date).format('d MMM yyyy')}
-                </Typography>
-              <Typography gutterBottom variant="h5" component="div">
                 Pet Status: {post.petStatus}
               </Typography>
             <Typography gutterBottom variant="h5" component="div">
