@@ -73,7 +73,7 @@ function NavBar() {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            <NavBarButton href="/posts">Posts</NavBarButton>
+            <NavBarButton href="/create-post">Create Post</NavBarButton>
             <NavBarButton href="/resources">Resources</NavBarButton>
             <NavBarButton href="/contactus">Contact Us</NavBarButton>
           </Box>

@@ -8,10 +8,12 @@ type SearchBarProps = {
 };
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
-  const [searchText, setSearchText] = useState<string>(''); // Initialize with an empty string
+  const [searchText, setSearchText] = useState<string>('');
 
-  const handleSearch = () => {
-    onSearch(searchText);
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setSearchText(value);
+    onSearch(value);
   };
 
   return (
@@ -24,11 +26,12 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
         value={searchText}
         onChange={(e) => setSearchText(e.target.value)}
       />
+      
       <Button
         variant="contained"
         color="primary"
         size="medium"
-        onClick={handleSearch}
+        onClick={() => onSearch(searchText)}
       >
         Search
       </Button>
