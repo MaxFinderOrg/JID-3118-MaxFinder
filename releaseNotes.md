@@ -6,6 +6,23 @@ This web application is to connect pet owners who have lost their pets with peop
 ## Release Notes
 
 
+### Version 0.5.0
+
+#### New Features
+* User is able to add images
+* User is able to search for a location via a text box
+* User can view list of resources and emergency contacts
+
+
+#### Bug Fixes
+* Fixed image insertion bugs
+* Fixed post page images
+* Fixed post required fields
+
+
+#### Known Issues
+* Merging of lost and found pages has potential glitches
+
 
 ### Version 0.4.0
 
