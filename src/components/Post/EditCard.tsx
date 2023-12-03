@@ -51,6 +51,8 @@ export default function EditCard() {
     const [state, setState] = useState('');
     const [county, setCounty] = useState('');
     const [city, setCity] = useState('');
+
+    const [enteredLocation, setEnteredLocation] = useState<{ lat: number; lng: number } | null>(null); 
     
 
     
@@ -192,7 +194,7 @@ export default function EditCard() {
     })
     .then(() => {
         console.log("Document successfully updated");
-        window.location.href = '/posts';
+        window.location.href = '/';
     })
     .catch((error) => {
         console.error("Error updating document:", error);
@@ -218,7 +220,7 @@ export default function EditCard() {
     postRef.delete()
     .then(() => {
         console.log("Document successfully deleted");
-        window.location.href = '/posts'; // Redirect to the posts page after deletion
+        window.location.href = '/'; // Redirect to the posts page after deletion
     })
     .catch((error) => {
         console.error("Error deleting document:", error);
@@ -376,12 +378,12 @@ export default function EditCard() {
             </FormControl>
           </Box>
 
-          <Map onMapData={handleMapData}/>
+          <Map onMapData={handleMapData} initial={enteredLocation}/>
           <h6>{address ? `Selected location: ${address}` : `Click to select location`}</h6>
 
           <Stack spacing={2} direction="row" mt={3} sx={{ ml: 1 }}>
             <Button variant="contained" onClick={handleSubmit}>Submit</Button>
-            <Button variant="outlined" href='/posts'>Cancel</Button>
+            <Button variant="outlined" href='/'>Cancel</Button>
             <Button variant="contained" onClick={handleDelete}>Delete</Button>
            
           </Stack>

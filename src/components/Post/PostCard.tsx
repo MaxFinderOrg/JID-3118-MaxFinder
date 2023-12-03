@@ -199,7 +199,7 @@ export default function PostCard() {
     }
 
     console.log("submit pressed complete");
-    window.location.href = '/posts'; // Redirect to the posts page after deletion
+    window.location.href = '/'; // Redirect to the posts page after deletion
   }
 
   const onImageChange = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -411,7 +411,7 @@ export default function PostCard() {
                     />)}
                 </div>
                 <p style={{marginTop: "-4px"}}></p>
-                <FormLabel id="address-label">Enter Address</FormLabel>
+                {/* <FormLabel id="address-label">Enter Address</FormLabel>
                 <TextField
                   required
                   fullWidth
@@ -423,7 +423,7 @@ export default function PostCard() {
                       handleAddress({address: e.target.value});
                   }}
                 />
-                {addressError && (<h6 style={{color: "red"}}>Address not found</h6>)}
+                {addressError && (<h6 style={{color: "red"}}>Address not found</h6>)} */}
             </FormControl> 
 
             <FormLabel id="contact-label">Your Phone Number</FormLabel>
@@ -438,7 +438,7 @@ export default function PostCard() {
           <p style={{marginTop:"-60px"}}></p>    
           <Stack spacing={2} direction="row" mt={3} sx={{ ml: 1 }}>
             <Button variant="contained" onClick={handleSubmit}>Submit</Button>
-            <Button variant="outlined" href='/posts'>Cancel</Button>
+            <Button variant="outlined" href='/'>Cancel</Button>
             <Button variant="contained" onClick={(e) => handleClick(e, "clicked")}>print data</Button>
             <Button variant="outlined" href='/edit-post'>Edit</Button>
           </Stack>
