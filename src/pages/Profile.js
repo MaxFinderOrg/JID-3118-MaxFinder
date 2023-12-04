@@ -64,10 +64,10 @@ const Posts = () => {
 
 
   return (
-    <div style={{ display: 'inline-block', textAlign: 'left' }}>
-      <Typography variant="h4" gutterBottom sx={{ textAlign: 'center', mt: 4 }}>
-        Your Posts
-      </Typography>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 0, backgroundColor: '#e6f7ff' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '3em', backgroundColor: '#e6f7ff' }}>
+        <h2>Your Posts</h2>
+      </div>
       {posts.map(post => (
          <Card
          key={post.id}
@@ -88,27 +88,30 @@ const Posts = () => {
 
             />
            
-            <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-                  Posted Date: {Moment(post.date).format('d MMM yyyy')}
-              </Typography>
-            <Typography gutterBottom variant="h5" component="div">
-              Pet Status: {post.petStatus}
-              </Typography>
-              <Typography gutterBottom variant="h5" component="div">
-              Name: {post.name}
-              </Typography>
+           <CardContent>
+            <Typography variant="h4" component="div" sx={{ textAlign: 'center', marginBottom: 2}}>
+                  {post.name}
+                </Typography>
+                <Typography variant="h6" component="div">
+                  Date Posted: {Moment(post.date).format('MMMM Do YYYY')}
+                </Typography>
+                <Typography variant="h6" component="div" sx={{ textAlign: 'center', color: post.petStatus === 'Found' ? 'lightgreen' : 'red', marginBottom: 2 }}>
+                  Pet Status: {post.petStatus}
+                </Typography>
               <Typography variant="body2" color="text.secondary" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              Location: {post.city}, {post.state} ({post.county}) 
+                Location: {post.city}, {post.state} ({post.county}) 
               </Typography>
               <Typography variant="body2" color="text.secondary">
-              Color: {post.color}
+                Date & Time {post.petStatus}: {post.petDateTime}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-              Breed: {post.breed}
+                Color: {post.color}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-              Size: {post.size}
+                Breed: {post.breed}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Size: {post.size}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Gender: {post.gender}
@@ -122,16 +125,13 @@ const Posts = () => {
               <Typography variant="body2" color="text.secondary">
                 Spayed/Neutered: {post.spayed}
               </Typography>
-              
             </CardContent>
             <CardActions sx={{ justifyContent: 'center' }}>
             <Button size="small">Share</Button>
             <Button size="small">Learn More</Button>
-            {post.petStatus !== 'Found' && (
               <Button onClick={() => window.location.assign(`/edit-post/${post.id}`)}>
                 Edit Post
               </Button>
-            )}
           </CardActions>
           </Card>
           </Card>

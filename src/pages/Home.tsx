@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import FilterOptions from '../components/SearchBar/FilterOptions.tsx';
 import FilterResults from '../components/SearchBar/FilterResults.tsx';
 import SearchBar from '../components/SearchBar/SearchBar.tsx';
-import Posts, { getAllPosts } from '../pages/Posts.js';
+import Posts, { getAllPosts } from './Posts.js';
 import PropTypes from 'prop-types';
 import { Container, CssBaseline, Grid, Paper, Typography } from '@mui/material';
 import { AlignHorizontalCenter, WidthFull } from '@mui/icons-material';
@@ -82,7 +82,8 @@ const Home = () => {
 
 
     return (
-      <Container component="main" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{backgroundColor: '#e6f7ff' }}>
+      <Container component="main" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#e6f7ff'}}>
         <CssBaseline />
         <Paper elevation={2} sx={{ padding: '10px', marginTop: '30px', marginBottom: '0px', alignItems: 'center', width:'80%', maxWidth: '600px'}}>
           <Grid container spacing={2} justifyContent="center">
@@ -94,6 +95,7 @@ const Home = () => {
         {/* Pass searchQuery to Posts component */}
         <Posts searchQuery={searchQuery} filteredResults={filteredResults} />
       </Container>
+      </div>
     );
   };
 

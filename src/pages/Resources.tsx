@@ -20,7 +20,7 @@ const posts = [ {name: 'Animal Hospital Locator', description: 'Click here to us
 
 const Resources = () => {
     return (
-      <div className='center-content'>
+      <div className='center-content' style={{backgroundColor: '#e6f7ff' }}>
         <div style={{ paddingTop: '2.7rem' , paddingBottom: '5.7rem' }}>
             <Typography
             variant="h6"

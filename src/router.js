@@ -14,6 +14,7 @@ import UpdateProfile from "./components/UpdateProfile";
 import PrivateRoute from "./components/PrivateRoute";
 import EditPost from "./pages/EditPost";
 import Adopt from "./pages/Adopt";
+import Profile from "./pages/Profile";
 
 const Router1 = () => {
   return (
@@ -24,6 +25,7 @@ const Router1 = () => {
       <Route path="/create-post" element={<CreatePost />} />
       <Route path="/" element={<Posts />} />
       <Route path="/home" element={<Home />} />
+      <Route path="/profile" element={<Profile />} />
       <Route path="/contactus" element={<ContactUs />} />
       <Route path="/resources" element={<Resources />} />
       <Route path="/account" element={<Account />} />
