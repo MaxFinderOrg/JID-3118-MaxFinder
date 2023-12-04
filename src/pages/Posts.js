@@ -70,39 +70,36 @@ const Posts = ({ searchQuery, filteredResults }) => {
     <div>
       {postsToDisplay && postsToDisplay.length > 0 ? (
       postsToDisplay.map((post, index) => (
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        p: 1,
-        m: 1,
-        bgcolor: 'background.paper',
-        borderRadius: 1,
-      }}
-    >      
-          <Card key={index} sx={{ width: 350, mt: 5 }}>
+        <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'column',
+          p: 1,
+          m: 1,
+          mt: 4,
+          bgcolor: 'background.paper',
+          borderRadius: 1,
+          border: post.petStatus === 'Found' ? '3px solid lightgreen' : '2px solid transparent',
+        }}
+        key={index}
+      >
+          <Card sx={{ width: 350, mt: 5 }}>
             <CardMedia
               sx={{ height: 140 }}
-
               image={post.imageRef || require("../static/images/dog.jpg")}
-
             />
-           
             <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                Pet Status: {post.petStatus}
-              </Typography>
-            <Typography gutterBottom variant="h5" component="div">
-                  Posted Date: {Moment(post.date).format('MMMM Do YYYY')}
-              </Typography>
-            <Typography gutterBottom variant="h5" component="div">
-              Pet Status: {post.petStatus}
-              </Typography>
-              <Typography gutterBottom variant="h5" component="div">
-                Name: {post.name}
-              </Typography>
+            <Typography variant="h4" component="div" sx={{ textAlign: 'center', marginBottom: 2}}>
+                  {post.name}
+                </Typography>
+                <Typography variant="h6" component="div">
+                  Date Posted: {Moment(post.date).format('MMMM Do YYYY')}
+                </Typography>
+                <Typography variant="h6" component="div" sx={{ textAlign: 'center', color: post.petStatus === 'Found' ? 'lightgreen' : 'red', marginBottom: 2 }}>
+                  Pet Status: {post.petStatus}
+                </Typography>
               <Typography variant="body2" color="text.secondary" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 Location: {post.city}, {post.state} ({post.county}) 
               </Typography>
@@ -131,22 +128,14 @@ const Posts = ({ searchQuery, filteredResults }) => {
                 Spayed/Neutered: {post.spayed}
               </Typography>
             </CardContent>
-            <CardActions>
-            {post.petStatus === 'Found' && (
+            <CardActions sx={{ justifyContent: 'center' }}> {/* Center the actions */}
+              {post.petStatus === 'Found' && (
                 <Button variant="contained" onClick={() => handleAdopt(post.id)}>
                   Adopt
                 </Button>
               )}
               <Button size="small">Share</Button>
               <Button size="small">Learn More</Button>
-             
-              <Button onClick={() => {
-                  const url = '/edit-post/' + post.id;
-                  window.location.assign(url);
-                }}>
-                Edit Post 
-              </Button>
-             
             </CardActions>
           </Card>
          </Box>
