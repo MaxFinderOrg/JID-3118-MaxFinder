@@ -33,6 +33,8 @@ export default function SignUp() {
     
       return (
         <>
+        <div className='center-content'>
+    <div className="w-100" style={{ maxWidth: "400px" }}>
           <Card>
             <Card.Body>
               <h2 className="text-center mb-4">Sign Up</h2>
@@ -50,6 +52,7 @@ export default function SignUp() {
                   <Form.Label>Password Confirmation</Form.Label>
                   <Form.Control type="password" ref={passwordConfirmRef} required />
                 </Form.Group>
+                <p></p>
                 <Button disabled={loading} className="w-100" type="submit">
                   Sign Up
                 </Button>
@@ -59,6 +62,8 @@ export default function SignUp() {
           <div className="w-100 text-center mt-2">
             Already have an account? <Link to="/login">Log In</Link>
           </div>
+          </div>
+        </div>
         </>
       )
     }
