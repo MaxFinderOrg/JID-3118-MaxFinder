@@ -12,7 +12,7 @@ const Adopt = () => {
   const [petPreference, setPetPreference] = useState(''); // New state for pet preference
   const [isAdult, setIsAdult] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
 
     try {
@@ -46,8 +46,12 @@ const Adopt = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+      <p></p>
+      <p></p>
       <h2>Adoption Request</h2>
+      <p></p>
       <h6>User must wait 48 hours to start adoption application to confirm if owner claims lost pet</h6>
+      <p></p>
       <form onSubmit={handleSubmit} style={{ width: '400px' }}>
         <div style={{ marginBottom: '16px' }}>
           <TextField
